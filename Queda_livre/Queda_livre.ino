@@ -18,31 +18,31 @@ void setup() {
 }
 // Laco principal do programa
 void loop() {
-  if (digitalRead(sensor1) == HIGH) {
+  if (digitalRead(sensor1) == LOW) {
     t1 = micros();
-    Serial.print("Sensor 1: ");
+    Serial.println("Sensor 1: ");
     //    Serial.print(t1/1000, 3);
     //    Serial.println(" ms");
   }
-  if (digitalRead(sensor2) == HIGH) {
+  if (digitalRead(sensor2) == LOW) {
     t2 = micros();
     Serial.println("Sensor 2: ");
     //    Serial.print(t2/1000, 3);
     //    Serial.println(" ms");
   }
-  if (digitalRead(sensor3) == HIGH) {
+  if (digitalRead(sensor3) == LOW) {
     t3 = micros();
     Serial.println("Sensor 3: ");
     //    Serial.print(t3/1000, 3);
     //    Serial.println(" ms");
   }
-  if (digitalRead(sensor4) == HIGH) {
+  if (digitalRead(sensor4) == LOW) {
     t4 = micros();
     Serial.println("Sensor 4: ");
     //    Serial.print(t4/1000, 3);
     //    Serial.println(" ms");
   }
-  if (digitalRead(sensor5) == HIGH) {
+  if (digitalRead(sensor5) == LOW) {
     t5 = micros();
     Serial.println("Sensor 5: ");
     //    Serial.print(t5/1000, 3);

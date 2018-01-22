@@ -9,19 +9,19 @@ void setup() {
   pinMode (sensor3, INPUT);
   pinMode (sensor4, INPUT);
   pinMode (sensor5, INPUT);
-
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.print(sensor1);
+  Serial.print(digitalRead(sensor1));
   Serial.print(", ");
-  Serial.print(sensor2);
+  Serial.print(digitalRead(sensor2));
   Serial.print(", ");
-  Serial.print(sensor3);
+  Serial.print(digitalRead(sensor3));
   Serial.print(", ");
-  Serial.print(sensor4);
+  Serial.print(digitalRead(sensor4));
   Serial.print(", ");
-  Serial.print(sensor5);
+  Serial.print(digitalRead(sensor5));
   Serial.println();
 }
