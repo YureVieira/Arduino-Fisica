@@ -1,4 +1,4 @@
-inint sensor1 = 3;
+int sensor1 = 3;
 int sensor2 = 4;
 int sensor3 = 5;
 int sensor4 = 6;
