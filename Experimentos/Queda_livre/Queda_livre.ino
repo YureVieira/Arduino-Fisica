@@ -20,31 +20,31 @@ void setup() {
 void loop() {
   if (digitalRead(sensor1) == LOW) {
     t1 = micros();
-    Serial.println("Sensor 1: ");
+    Serial.println("Sensor 1");
     //    Serial.print(t1/1000, 3);
     //    Serial.println(" ms");
   }
   if (digitalRead(sensor2) == LOW) {
     t2 = micros();
-    Serial.println("Sensor 2: ");
+    Serial.println("Sensor 2");
     //    Serial.print(t2/1000, 3);
     //    Serial.println(" ms");
   }
   if (digitalRead(sensor3) == LOW) {
     t3 = micros();
-    Serial.println("Sensor 3: ");
+    Serial.println("Sensor 3");
     //    Serial.print(t3/1000, 3);
     //    Serial.println(" ms");
   }
   if (digitalRead(sensor4) == LOW) {
     t4 = micros();
-    Serial.println("Sensor 4: ");
+    Serial.println("Sensor 4");
     //    Serial.print(t4/1000, 3);
     //    Serial.println(" ms");
   }
   if (digitalRead(sensor5) == LOW) {
     t5 = micros();
-    Serial.println("Sensor 5: ");
+    Serial.println("Sensor 5");
     //    Serial.print(t5/1000, 3);
     //    Serial.println(" ms");
     leitura = 1;
@@ -56,11 +56,12 @@ void loop() {
     T3 = (t4 - t3) / 1000.0;
     T4 = (t5 - t4) / 1000.0;
     leitura = 0;
-    Serial.println("Leitura: ");
+    Serial.println("############ LEITURA ############### ");
     Serial.println(T1, 3);
     Serial.println(T2, 3);
     Serial.println(T3, 3);
     Serial.println(T4, 3);
+    Serial.println("#################################### ");
     delay(1000);
   }
 }
