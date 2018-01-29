@@ -1,52 +1,43 @@
-int sensor1 = 3;
-int sensor2 = 4;
-int sensor3 = 5;
-int sensor4 = 6;
-int sensor5 = 7;
+//Pinos para sensores
+#define S1 5
+#define S2 6
+#define S3 7
+#define S4 8
+#define S5 9
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1, T2, T3, T4;
 int leitura;
 
 void setup() {
-  pinMode (sensor1, INPUT);
-  pinMode (sensor2, INPUT);
-  pinMode (sensor3, INPUT);
-  pinMode (sensor4, INPUT);
-  pinMode (sensor5, INPUT);
+  pinMode (S1, INPUT);
+  pinMode (S2, INPUT);
+  pinMode (S3, INPUT);
+  pinMode (S4, INPUT);
+  pinMode (S5, INPUT);
   Serial.begin (9600);
 }
 // Laco principal do programa
 void loop() {
-  if (digitalRead(sensor1) == LOW) {
+  if (digitalRead(S1) == LOW) {
     t1 = micros();
-    Serial.println("Sensor 1");
-    //    Serial.print(t1/1000, 3);
-    //    Serial.println(" ms");
+    Serial.println("Sensor1");
   }
-  if (digitalRead(sensor2) == LOW) {
+  if (digitalRead(S2) == LOW) {
     t2 = micros();
-    Serial.println("Sensor 2");
-    //    Serial.print(t2/1000, 3);
-    //    Serial.println(" ms");
+    Serial.println("Sensor2");
   }
-  if (digitalRead(sensor3) == LOW) {
+  if (digitalRead(S3) == LOW) {
     t3 = micros();
-    Serial.println("Sensor 3");
-    //    Serial.print(t3/1000, 3);
-    //    Serial.println(" ms");
+    Serial.println("Sensor3");
   }
-  if (digitalRead(sensor4) == LOW) {
+  if (digitalRead(S4) == LOW) {
     t4 = micros();
-    Serial.println("Sensor 4");
-    //    Serial.print(t4/1000, 3);
-    //    Serial.println(" ms");
+    Serial.println("Sensor4");
   }
-  if (digitalRead(sensor5) == LOW) {
+  if (digitalRead(S5) == LOW) {
     t5 = micros();
-    Serial.println("Sensor 5");
-    //    Serial.print(t5/1000, 3);
-    //    Serial.println(" ms");
+    Serial.println("Sensor5");
     leitura = 1;
   }
   //Pos leitura
