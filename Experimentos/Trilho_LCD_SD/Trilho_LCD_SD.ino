@@ -15,6 +15,7 @@ U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1 = 0, T2 = 0, T3 = 0, T4 = 0;
+int current_sensor;
 int full_reading;
 File myFile;
 
@@ -27,17 +28,6 @@ void u8g_prepare()
 }
 
 void u8g_setup() {
-  // flip screen, if required
-  //u8g.setRot180();
-
-  if ( u8g.getMode() == U8G_MODE_R3G3B2 )
-    u8g.setColorIndex(255);   // white
-  else if ( u8g.getMode() == U8G_MODE_GRAY2BIT )
-    u8g.setColorIndex(1);     // max intensity
-  else if ( u8g.getMode() == U8G_MODE_BW )
-    u8g.setColorIndex(1);     // pixel on
-
-  //u8g.setContrast(0x30);
 }
 
 void LCD_printValues() {
@@ -74,15 +64,11 @@ void setup() {
   pinMode (S4, INPUT);
   pinMode (S5, INPUT);
   Serial.begin (9600);
-  //Menssagem inicial
-  u8g_setup();
+  current_sensor = 5;
+  u8g.setRot180();//Flip do texto no lcd(se necessario)
   u8g_prepare();
   u8g.firstPage();
-  do
-  {
-    u8g.drawStr( 4, 0, "## Sistema Pronto ##");
-  }
-  while ( u8g.nextPage() );
+  u8g.drawStr( 4, 0, "## Sistema Pronto ##");
   //SD card
   if (SD.begin(4))
   {
@@ -96,24 +82,29 @@ void setup() {
 }
 // Laco principal do programa
 void loop() {
-  if (digitalRead(S1) == LOW) {
+  if (digitalRead(S1) == LOW && current_sensor == 5) {
     t1 = micros();
+    current_sensor = 1;
     Serial.println("Sensor1");
   }
-  if (digitalRead(S2) == LOW) {
+  if (digitalRead(S2) == LOW && current_sensor == 1) {
     t2 = micros();
+    current_sensor = 2;
     Serial.println("Sensor2");
   }
-  if (digitalRead(S3) == LOW) {
+  if (digitalRead(S3) == LOW && current_sensor == 2) {
     t3 = micros();
+    current_sensor = 3;
     Serial.println("Sensor3");
   }
-  if (digitalRead(S4) == LOW) {
+  if (digitalRead(S4) == LOW && current_sensor == 3) {
     t4 = micros();
+    current_sensor = 4;
     Serial.println("Sensor4");
   }
-  if (digitalRead(S5) == LOW) {
+  if (digitalRead(S5) == LOW && current_sensor == 4) {
     t5 = micros();
+    current_sensor = 5;
     Serial.println("Sensor5");
     full_reading = 1;
   }
