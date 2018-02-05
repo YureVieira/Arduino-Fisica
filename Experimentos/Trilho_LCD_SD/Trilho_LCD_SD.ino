@@ -6,7 +6,7 @@
 // A linha abaixo define as ligacoes e deve ser
 // ajustada conforme o display utilizado.
 U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
-//Pinos para sensores
+//Pinos para sensores(Entradas analogicas são saudas como entradas digitais simples)
 #define S1 A0
 #define S2 A1
 #define S3 A2

@@ -2,12 +2,12 @@
 // A linha abaixo define as ligacoes e deve ser
 // ajustada conforme o display utilizado.
 U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
-//Pinos para sensores
-#define S1 8
-#define S2 9
-#define S3 10
-#define S4 11
-#define S5 12
+//Pinos para sensores(Entradas analogicas são saudas como entradas digitais simples)
+#define S1 A0
+#define S2 A1
+#define S3 A2
+#define S4 A3
+#define S5 A4
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1=0, T2=0, T3=0, T4=0;
@@ -20,7 +20,7 @@ void u8g_prepare()
   u8g.setDefaultForegroundColor();
   u8g.setFontPosTop();
 }
-
+//# rotinas para LCD
 void u8g_setup() {
   // flip screen, if required
   //u8g.setRot180();
