@@ -64,27 +64,27 @@ void setup() {
 // Laco principal do programa
 void loop() {
   if (digitalRead(S1) == LOW && current_sensor == 5) {
-    t1 = micros();
+    t1 = millis();
     current_sensor = 1;
     Serial.println("Sensor1");
   }
   if (digitalRead(S2) == LOW && current_sensor == 1) {
-    t2 = micros();
+    t2 = millis();
     current_sensor = 2;
     Serial.println("Sensor2");
   }
   if (digitalRead(S3) == LOW && current_sensor == 2) {
-    t3 = micros();
+    t3 = millis();
     current_sensor = 3;
     Serial.println("Sensor3");
   }
   if (digitalRead(S4) == LOW && current_sensor == 3) {
-    t4 = micros();
+    t4 = millis();
     current_sensor = 4;
     Serial.println("Sensor4");
   }
   if (digitalRead(S5) == LOW && current_sensor == 4) {
-    t5 = micros();
+    t5 = millis();
     current_sensor = 5;
     Serial.println("Sensor5");
     full_reading = 1;
@@ -96,12 +96,24 @@ void loop() {
     T3 = (t4 - t3) / 1000.0;
     T4 = (t5 - t4) / 1000.0;
     full_reading = 0;
-    Serial.println("############ LEITURA ############### ");
-    Serial.println(T1, 3);
-    Serial.println(T2, 3);
-    Serial.println(T3, 3);
-    Serial.println(T4, 3);
-    Serial.println("#################################### ");
+      Serial.println("############ TEMPOS ################ ");
+      Serial.print(T1, 6);
+      Serial.println(" s");
+      Serial.print(T2, 6);
+      Serial.println(" s");
+      Serial.print(T3, 6);
+      Serial.println(" s");
+      Serial.print(T4, 6);
+      Serial.println("########### VELOCIDADES ############ ");
+      Serial.print(v1, 6);
+      Serial.println(" s");
+      Serial.print(v2, 6);
+      Serial.println(" s");
+      Serial.print(v3, 6);
+      Serial.println(" s");
+      Serial.print(v4, 6);
+      Serial.println(" m/s");
+      Serial.println("#################################### ");
     //Escrita no LCD
     u8g.firstPage();
     do
