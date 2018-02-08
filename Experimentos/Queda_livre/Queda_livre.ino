@@ -8,7 +8,7 @@
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1, T2, T3, T4;
 float v1, v2, v3, v4;
-int sensor_atual;
+int sensor_atual = 5;
 int leitura;
 float distancia = -1.0;
 
@@ -41,7 +41,6 @@ void setup() {
     }
     delay(1000);
   }
-  sensor_atual = 5;
 }
 // Laco principal do programa
 void loop() {

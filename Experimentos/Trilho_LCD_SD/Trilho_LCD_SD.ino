@@ -68,7 +68,9 @@ void setup() {
   u8g.setRot180();//Flip do texto no lcd(se necessario)
   u8g_prepare();
   u8g.firstPage();
-  u8g.drawStr( 4, 0, "## Sistema Pronto ##");
+  do {
+    u8g.drawStr( 4, 0, "## Sistema Pronto ##");
+  } while ( u8g.nextPage() );
   //SD card
   if (SD.begin(4))
   {
@@ -82,67 +84,70 @@ void setup() {
 }
 // Laco principal do programa
 void loop() {
-  if (digitalRead(S1) == LOW && current_sensor == 5) {
-    t1 = micros();
-    current_sensor = 1;
-    Serial.println("Sensor1");
-  }
-  if (digitalRead(S2) == LOW && current_sensor == 1) {
-    t2 = micros();
-    current_sensor = 2;
-    Serial.println("Sensor2");
-  }
-  if (digitalRead(S3) == LOW && current_sensor == 2) {
-    t3 = micros();
-    current_sensor = 3;
-    Serial.println("Sensor3");
-  }
-  if (digitalRead(S4) == LOW && current_sensor == 3) {
-    t4 = micros();
-    current_sensor = 4;
-    Serial.println("Sensor4");
-  }
-  if (digitalRead(S5) == LOW && current_sensor == 4) {
-    t5 = micros();
-    current_sensor = 5;
-    Serial.println("Sensor5");
-    full_reading = 1;
-  }
-  //Pos leitura
-  if ( full_reading == 1 ) {
-    T1 = (t2 - t1) / 1000.0;
-    T2 = (t3 - t2) / 1000.0;
-    T3 = (t4 - t3) / 1000.0;
-    T4 = (t5 - t4) / 1000.0;
-    full_reading = 0;
-    Serial.println("############ LEITURA ############### ");
-    Serial.println(T1, 3);
-    Serial.println(T2, 3);
-    Serial.println(T3, 3);
-    Serial.println(T4, 3);
-    Serial.println("#################################### ");
-    //Escrita no SD card
-    myFile = SD.open("test.txt", FILE_WRITE);
-    if (myFile) {
-      myFile.println("************************");
-      myFile.print("T1: ");
-      myFile.println(T1);
-      myFile.print("T2: ");
-      myFile.println(T2);
-      myFile.print("T3: ");
-      myFile.println(T3);
-      myFile.print("T4: ");
-      myFile.println(T4);
-      myFile.println("************************");
-      myFile.close(); // close the file
+  if (distancia > 0.0)
+  {
+    if (digitalRead(S1) == LOW && current_sensor == 5) {
+      t1 = micros();
+      current_sensor = 1;
+      Serial.println("Sensor1");
     }
-    //Escrita no LCD
-    u8g.firstPage();
-    do
-    {
-      draw();
+    if (digitalRead(S2) == LOW && current_sensor == 1) {
+      t2 = micros();
+      current_sensor = 2;
+      Serial.println("Sensor2");
     }
-    while ( u8g.nextPage() );
-    delay(1000);
+    if (digitalRead(S3) == LOW && current_sensor == 2) {
+      t3 = micros();
+      current_sensor = 3;
+      Serial.println("Sensor3");
+    }
+    if (digitalRead(S4) == LOW && current_sensor == 3) {
+      t4 = micros();
+      current_sensor = 4;
+      Serial.println("Sensor4");
+    }
+    if (digitalRead(S5) == LOW && current_sensor == 4) {
+      t5 = micros();
+      current_sensor = 5;
+      Serial.println("Sensor5");
+      full_reading = 1;
+    }
+    //Pos leitura
+    if ( full_reading == 1 ) {
+      T1 = (t2 - t1) / 1000.0;
+      T2 = (t3 - t2) / 1000.0;
+      T3 = (t4 - t3) / 1000.0;
+      T4 = (t5 - t4) / 1000.0;
+      full_reading = 0;
+      Serial.println("############ LEITURA ############### ");
+      Serial.println(T1, 3);
+      Serial.println(T2, 3);
+      Serial.println(T3, 3);
+      Serial.println(T4, 3);
+      Serial.println("#################################### ");
+      //Escrita no SD card
+      myFile = SD.open("test.txt", FILE_WRITE);
+      if (myFile) {
+        myFile.println("************************");
+        myFile.print("T1: ");
+        myFile.println(T1);
+        myFile.print("T2: ");
+        myFile.println(T2);
+        myFile.print("T3: ");
+        myFile.println(T3);
+        myFile.print("T4: ");
+        myFile.println(T4);
+        myFile.println("************************");
+        myFile.close(); // close the file
+      }
+      //Escrita no LCD
+      u8g.firstPage();
+      do
+      {
+        draw();
+      }
+      while ( u8g.nextPage() );
+      delay(1000);
+    }
   }
 }
