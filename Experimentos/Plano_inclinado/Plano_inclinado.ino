@@ -21,7 +21,7 @@ MPU6050 mpu;
 int getAngleMPU() {
   //valores de correção obtido impircamente
   int offset = -90;
-  int factor = -1;
+  int factor = 1;
   int value;
   // Read normalized values
   Vector normAccel = mpu.readNormalizeAccel();
@@ -30,6 +30,7 @@ int getAngleMPU() {
   int pitch = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis * normAccel.YAxis + normAccel.ZAxis * normAccel.ZAxis)) * 180.0) / M_PI;
   int roll = (atan2(normAccel.YAxis, normAccel.ZAxis) * 180.0) / M_PI;
   value = factor * roll + offset;
+  return value;
 }
 
 /*****************************************************/
@@ -63,7 +64,8 @@ void setup() {
       break;
     }
     else {
-      Serial.println("Entre com um valor valido!");
+      Serial.print("Inclinação( º): ");
+      Serial.println(getAngleMPU());
       distancia_str = "";
     }
     delay(1000);
@@ -122,13 +124,14 @@ void loop() {
       Serial.print(angulo);
       Serial.println("º");
       Serial.println("############ TEMPOS ################ ");
-      Serial.print(T1, 6);
+      Serial.print(T1);
       Serial.println(" s");
-      Serial.print(T2, 6);
+      Serial.print(T2);
       Serial.println(" s");
-      Serial.print(T3, 6);
+      Serial.print(T3);
       Serial.println(" s");
-      Serial.print(T4, 6);
+      Serial.print(T4);
+      Serial.println(" s");
       Serial.println("########### VELOCIDADES ############ ");
       Serial.print(v1, 6);
       Serial.println(" m/s");

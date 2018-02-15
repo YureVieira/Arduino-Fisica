@@ -1,8 +1,8 @@
-int sensor1 = A0;
-int sensor2 = A1;
-int sensor3 = A5;
-int sensor4 = A3;
-int sensor5 = A4;
+int sensor1 = 4;
+int sensor2 = 5;
+int sensor3 = 6;
+int sensor4 = 7;
+int sensor5 = 8;
 void setup() {
   pinMode (sensor1, INPUT);
   pinMode (sensor2, INPUT);
