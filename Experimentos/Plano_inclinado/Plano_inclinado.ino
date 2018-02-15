@@ -1,11 +1,11 @@
 #include <Wire.h>
 #include <MPU6050.h>
 //Pinos para sensores(entradas analogicas)
-#define S1 A0
-#define S2 A1
-#define S3 A2
-#define S4 A3
-#define S5 A4
+#define S1 4
+#define S2 5
+#define S3 6
+#define S4 7
+#define S5 8
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1, T2, T3, T4;
@@ -60,7 +60,6 @@ void setup() {
       Serial.print("Distancia entre sensores configurada para: ");
       Serial.print(distancia);
       Serial.println(" mm");
-      distancia = distancia / 1000;
       break;
     }
     else {
@@ -104,10 +103,10 @@ void loop() {
     }
     //Pos leitura
     if ( leitura == 1 ) {
-      T1 = (t2 - t1) / 1000.0;
-      T2 = (t3 - t1) / 1000.0;
-      T3 = (t4 - t1) / 1000.0;
-      T4 = (t5 - t1) / 1000.0;
+      T1 = (t2 - t1) ;
+      T2 = (t3 - t1) ;
+      T3 = (t4 - t1) ;
+      T4 = (t5 - t1) ;
 
       //Calculo da Velocidade
       v1 = distancia / T1;
@@ -119,8 +118,9 @@ void loop() {
       
       leitura = 0;
       Serial.println("######### INCLINAÇÃO ############### ");
-      Serial.print("Angulo");
+      Serial.print("Angulo: ");
       Serial.print(angulo);
+      Serial.println("º");
       Serial.println("############ TEMPOS ################ ");
       Serial.print(T1, 6);
       Serial.println(" s");
@@ -131,11 +131,11 @@ void loop() {
       Serial.print(T4, 6);
       Serial.println("########### VELOCIDADES ############ ");
       Serial.print(v1, 6);
-      Serial.println(" s");
+      Serial.println(" m/s");
       Serial.print(v2, 6);
-      Serial.println(" s");
+      Serial.println(" m/s");
       Serial.print(v3, 6);
-      Serial.println(" s");
+      Serial.println(" m/s");
       Serial.print(v4, 6);
       Serial.println(" m/s");
       Serial.println("#################################### ");

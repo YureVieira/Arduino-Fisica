@@ -39,10 +39,10 @@ void LCD_printValues() {
 
   u8g.drawStr( 2, 0, "Tempos e velocidade");
 
-  u8g.drawStr( 0, 10, msg1);
-  u8g.drawStr( 0, 20, msg2);
-  u8g.drawStr( 0, 30, msg3);
-  u8g.drawStr( 0, 40, msg4);
+  u8g.drawStr( 0, 12, msg1);
+  u8g.drawStr( 0, 22, msg2);
+  u8g.drawStr( 0, 32, msg3);
+  u8g.drawStr( 0, 42, msg4);
 
   value1 = String(v1);
   value2 = String(v2);
@@ -54,12 +54,12 @@ void LCD_printValues() {
   sprintf(msg3, "v3=%s", value3.c_str());
   sprintf(msg4, "v4=%s", value4.c_str());
 
-  u8g.drawStr( 64, 10, msg1);
-  u8g.drawStr( 64, 20, msg2);
-  u8g.drawStr( 64, 30, msg3);
-  u8g.drawStr( 64, 40, msg4);
+  u8g.drawStr( 64, 12, msg1);
+  u8g.drawStr( 64, 22, msg2);
+  u8g.drawStr( 64, 32, msg3);
+  u8g.drawStr( 64, 42, msg4);
 
-  u8g.drawStr( 0, 50, "(ms)       (m/s)");  
+  u8g.drawStr( 0, 55, " (ms)      (m/s) ");
 }
 
 void draw() {
