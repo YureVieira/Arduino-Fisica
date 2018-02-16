@@ -1,9 +1,6 @@
-#include "U8glib.h"
 #include <SPI.h>
 #include <SD.h>
-// A linha abaixo define as ligacoes e deve ser
-// ajustada conforme o display utilizado.
-U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
+
 //Pinos para sensores(Entradas analogicas são saudas como entradas digitais simples)
 #define S1 A0
 #define S2 A1
@@ -19,56 +16,6 @@ int sensor_atual=5;
 int leitura;
 File myFile;
 
-void u8g_prepare()
-{
-  u8g.setFont(u8g_font_6x10);
-  u8g.setFontRefHeightExtendedText();
-  u8g.setDefaultForegroundColor();
-  u8g.setFontPosTop();
-}
-//# rotinas para LCD
-void LCD_printtempos() {
-  String tempo1 = String(T1);
-  String tempo2 = String(T2);
-  String tempo3 = String(T3);
-  String tempo4 = String(T4);
-  String veloc1 = String(v1);
-  String veloc2 = String(v2);
-  String veloc3 = String(v3);
-  String veloc4 = String(v4);
-
-  char msg1[23], msg2[23], msg3[23], msg4[23];
-
-  sprintf(msg1, "T1=%s", tempo1.c_str());
-  sprintf(msg2, "T2=%s", tempo2.c_str());
-  sprintf(msg3, "T3=%s", tempo3.c_str());
-  sprintf(msg4, "T4=%s",tempo4.c_str());
-
-  u8g.drawStr( 0, 0, "Tempos x velocidades");
-  
-  u8g.drawStr( 0, 12, msg1);
-  u8g.drawStr( 0, 22, msg2);
-  u8g.drawStr( 0, 32, msg3);
-  u8g.drawStr( 0, 42, msg4);
-
-  sprintf(msg1, "v1=%s", veloc1.c_str());
-  sprintf(msg2, "v2=%s", veloc2.c_str());
-  sprintf(msg3, "v3=%s", veloc3.c_str());
-  sprintf(msg4, "v4=%s", veloc4.c_str());
-
-  u8g.drawStr( 64, 12, msg1);
-  u8g.drawStr( 64, 22, msg2);
-  u8g.drawStr( 64, 32, msg3);
-  u8g.drawStr( 64, 42, msg4);
-
-  u8g.drawStr( 0, 55, " (ms)      (m/s) ");  
-}
-
-void draw() {
-  u8g_prepare();
-  LCD_printtempos();
-}
-
 void setup() {
   pinMode (S1, INPUT);//INPUT(tests)
   pinMode (S2, INPUT);
@@ -79,10 +26,10 @@ void setup() {
     //SD card
   if (SD.begin(4))
   {
-    Serial.println("SD card is ready to use.");
+    Serial.println("Cartão SD pronto para uso.");
   } else
   {
-    Serial.println("SD card initialization failed");
+    Serial.println("Falha na inicialização do cartão SD");
     return;
   }
   Serial.println("Entre com a distancia em milimetros entre os sensores(1 valor)");
@@ -93,12 +40,12 @@ void setup() {
       char dado = Serial.read();
       distancia_str.concat(dado);
     }
+    //Conversão de string para float
     distancia = distancia_str.toFloat();
     if (distancia > 0) {
       Serial.print("Distancia entre sensores configurada para: ");
       Serial.print(distancia);
       Serial.println(" mm");
-      //distancia = distancia / 1000;
       break;
     }
     else {
@@ -107,12 +54,6 @@ void setup() {
     }
     delay(1000);
   }
-  u8g.setRot180();//Flip do texto no lcd(se necessario)
-  u8g_prepare();
-  u8g.firstPage();
-  do {
-    u8g.drawStr( 4, 0, "## Sistema Pronto ##");
-  } while ( u8g.nextPage() );
 }
 // Laco principal do programa
 void loop() {
@@ -121,27 +62,27 @@ void loop() {
     if (digitalRead(S1) == LOW && sensor_atual == 5) {
       t1 = millis();
       sensor_atual = 1;
-      //Serial.println("Sensor1");
+      Serial.println("Sensor1");
     }
     if (digitalRead(S2) == LOW && sensor_atual == 1) {
       t2 = millis();
       sensor_atual = 2;
-      //Serial.println("Sensor2");
+      Serial.println("Sensor2");
     }
     if (digitalRead(S3) == LOW && sensor_atual == 2) {
       t3 = millis();
       sensor_atual = 3;
-      //Serial.println("Sensor3");
+      Serial.println("Sensor3");
     }
     if (digitalRead(S4) == LOW && sensor_atual == 3) {
       t4 = millis();
       sensor_atual = 4;
-      //Serial.println("Sensor4");
+      Serial.println("Sensor4");
     }
     if (digitalRead(S5) == LOW && sensor_atual == 4) {
       t5 = millis();
       sensor_atual = 5;
-      //Serial.println("Sensor5");
+      Serial.println("Sensor5");
       leitura = 1;
     }
     //Pos leitura
@@ -180,7 +121,7 @@ void loop() {
         myFile.print("v4: ");
         myFile.println(v4);
         myFile.println("************************");
-        myFile.close(); // close the file
+        myFile.close();
       }
       Serial.println("############ TEMPOS ################ ");
       Serial.print(T1, 6);
@@ -200,13 +141,6 @@ void loop() {
       Serial.print(v4, 6);
       Serial.println(" m/s");
       Serial.println("#################################### ");
-      //Escrita no LCD
-      u8g.firstPage();
-      do
-      {
-        draw();
-      }
-      while ( u8g.nextPage() );
       delay(1000);
     }
   }
