@@ -131,6 +131,7 @@ void loop() {
       Serial.print(T3, 6);
       Serial.println(" ms");
       Serial.print(T4, 6);
+      Serial.println(" ms");
       Serial.println("########### VELOCIDADES ############ ");
       Serial.print(v1, 6);
       Serial.println(" m/s");
