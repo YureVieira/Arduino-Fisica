@@ -1,9 +1,9 @@
 //Pinos para sensores(entradas analogicas)
-#define S1 A0
-#define S2 A1
-#define S3 A2
-#define S4 A3
-#define S5 A4
+#define S1 8
+#define S2 9
+#define S3 10
+#define S4 11
+#define S5 12
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0;
 float T1, T2, T3, T4;
