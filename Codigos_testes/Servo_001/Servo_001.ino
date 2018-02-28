@@ -1,7 +1,8 @@
 #include <Servo.h>
 
 Servo servo;
-bool flag_move_servo;
+bool flag_move_servo=false;
+int value=10;
 void setup() {
   servo.attach(9);
   Serial.begin(9600);
@@ -14,14 +15,14 @@ void loop() {
     Serial.println("Byte recebido");
   }
   if (flag_move_servo) {
-    servo.write(50);
-    delay(10);
-    servo.write(100);
+    for (; value < 100; value++)
+      servo.write(value);
+    delay(1);
   }
-  else {
-    servo.write(50);
-    delay(10);
-    servo.write(10);
+  else
+  for (; value > 10; value--){
+    servo.write(value);
+    delay(1);
   }
   delay(15);
 }
