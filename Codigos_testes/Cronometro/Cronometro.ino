@@ -1,8 +1,8 @@
-const int Sensor1 = 8;
-const int Sensor2 = 9;
-const int Sensor3 = 10;
-const int Sensor4 = 11;
-const int Sensor5 = 12;
+const int Sensor1 = A0;
+const int Sensor2 = A1;
+const int Sensor3 = A2;
+const int Sensor4 = A3;
+const int Sensor5 = A4;
 
 unsigned long t0; // tempo inicial
 unsigned long t1; // tempo final no sensor2
