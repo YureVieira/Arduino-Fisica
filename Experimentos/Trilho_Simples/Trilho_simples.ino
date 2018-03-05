@@ -73,6 +73,7 @@ void setup() {
 
 // Laco principal do programa
 void loop() {
+  //Leitura dos sensores de obstaculos
   if (digitalRead(S1) == LOW && sensor_atual == 5) {
     t1 = millis();
     sensor_atual = 1;
