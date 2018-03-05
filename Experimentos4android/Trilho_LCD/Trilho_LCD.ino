@@ -17,7 +17,7 @@
   Calculada a velocidade do objeto.
   Transmissão via módulo Serial/Bluetooth.
   Dados mostrados em um display LCD 128x64
-  É necessário introduzir no Monitor Serial do Arduino a distância entre os sensores.
+  A introdução no Monitor Serial do Arduino a distância entre os sensores é opcional.
 
   --------------------------------------------------------------------------*/
 #include "U8glib.h"
@@ -99,11 +99,11 @@ void setup() {
   //Comunicação serial configurada.
   Serial.begin (9600);
   
-  Serial.println("Entre com a distancia em milimetros entre os sensores(1 valor)");
+  Serial.print("Entre com a distancia em milimetros entre os sensores(1 valor)");
   String distancia_str;
-  //Laço para colher dados a referentes da distancia entre sensores.
-  while (1)
-  {
+ //Laço para colher dados a referentes da distancia entre sensores.
+  //Apos 30 segundos atribuir um valor padrão de 200 mm.
+  while (millis()<30000) {
     while (Serial.available()) {
       char dado = Serial.read();
       distancia_str.concat(dado);
@@ -116,16 +116,20 @@ void setup() {
     if (distancia > 0) {
       Serial.print("Distancia entre sensores configurada para: ");
       Serial.print(distancia);
-      Serial.println(" mm");
+      Serial.print(" mm/");
       break;
     }
     else {
-      Serial.println("Entre com um valor valido!");
+      Serial.print("Entre com um valor valido!/");
       distancia_str = "";
     }
     delay(1000);
   }
-  Serial.println("Sistema pronto");
+  if(distancia <= 0){
+    distancia = 210;
+    }
+  Serial.print("Sistema pronto/");
+  
   u8g.setRot180();//Flip do texto no lcd(se necessario)
   u8g_prepare();
   u8g.firstPage();
@@ -136,32 +140,33 @@ void setup() {
   }
   while ( u8g.nextPage() );
 }
+
 // Laco principal do programa
 void loop() {
   if (digitalRead(S1) == LOW && sensor_atual == 5) {
     t1 = millis();
     sensor_atual = 1;
-    Serial.println("Sensor1");
+    Serial.print("Sensor1/");
   }
   if (digitalRead(S2) == LOW && sensor_atual == 1) {
     t2 = millis();
     sensor_atual = 2;
-    Serial.println("Sensor2");
+    Serial.print("Sensor2/");
   }
   if (digitalRead(S3) == LOW && sensor_atual == 2) {
     t3 = millis();
     sensor_atual = 3;
-    Serial.println("Sensor3");
+    Serial.print("Sensor3/");
   }
   if (digitalRead(S4) == LOW && sensor_atual == 3) {
     t4 = millis();
     sensor_atual = 4;
-    Serial.println("Sensor4");
+    Serial.print("Sensor4/");
   }
   if (digitalRead(S5) == LOW && sensor_atual == 4) {
     t5 = millis();
     sensor_atual = 5;
-    Serial.println("Sensor5");
+    Serial.print("Sensor5/");
     leitura = 1;
   }
   //Pos leitura
@@ -177,33 +182,24 @@ void loop() {
     v3 = 3 * distancia / T3;
     v4 = 4 * distancia / T4;
     leitura = 0;
-    Serial.println("############ TEMPOS ################ ");
-    Serial.print("T1: ");
+
+    Serial.print("Tempo 1|");
     Serial.print(T1);
-    Serial.println(" ms");
-    Serial.print("T2: ");
+    Serial.print("Tempo 2|");
     Serial.print(T2);
-    Serial.println(" ms");
-    Serial.print("T3: ");
+    Serial.print("Tempo 3|");
     Serial.print(T3);
-    Serial.println(" ms");
-    Serial.print("T4: ");
+    Serial.print("Tempo 4|");
     Serial.print(T4);
-    Serial.println(" ms");
-    Serial.println("########### VELOCIDADES ############ ");
-    Serial.print("v1: ");
-    Serial.print(v1, 6);
-    Serial.println(" m/s");
-    Serial.print("v2: ");
-    Serial.print(v2, 6);
-    Serial.println(" m/s");
-    Serial.print("v3: ");
-    Serial.print(v3, 6);
-    Serial.println(" m/s");
-    Serial.print("v4: ");
-    Serial.print(v4, 6);
-    Serial.println(" m/s");
-    Serial.println("#################################### ");
+    
+//    Serial.print("v1|");
+//    Serial.print(v1, 6);
+//    Serial.print("v2|");
+//    Serial.print(v2, 6);
+//    Serial.print("v3|");
+//    Serial.print(v3, 6);
+//    Serial.print("v4|");
+//    Serial.print(v4, 6);
     //Escrita no LCD
     u8g.firstPage();
     do
