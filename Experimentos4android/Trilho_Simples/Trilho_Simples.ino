@@ -118,13 +118,13 @@ void loop() {
     v4 = 4 * distancia / T4;
 
     leitura = 0;
-    Serial.print("Tempo 1|");
+    Serial.print("Tempo1|");
     Serial.print(T1);
-    Serial.print("Tempo 2|");
+    Serial.print("Tempo2|");
     Serial.print(T2);
-    Serial.print("Tempo 3|");
+    Serial.print("Tempo3|");
     Serial.print(T3);
-    Serial.print("Tempo 4|");
+    Serial.print("Tempo4|");
     Serial.print(T4);
 //    Serial.print("v1: ");
 //    Serial.print(v1, 6);
