@@ -1,12 +1,12 @@
 /*--------------------------------------------------------------------------
   UNIVERSIDADE FEDERAL DO CEARÁ - UFC
   LABORATÓRIO DE MÍDIAS EDUCACIONAIS - LME
-  PROJETO|Física com Arduino
-  ANALISTA|Antonio de Lisboa Coutinho Junior
-  DESENVOLVEDOR|Yure Vieira Sampaio Albuquerque
-  DATA|05/03/2018
-  VERSÃO|1.0
-  REPOSITÓRIO|GOOGLE DRIVE\UAB - Arduino\Código Arduino
+  PROJETO: Física com Arduino
+  ANALISTA: Antonio de Lisboa Coutinho Junior
+  DESENVOLVEDOR: Yure Vieira Sampaio Albuquerque
+  DATA: 05/03/2018
+  VERSÃO: 2.0
+  REPOSITÓRIO: GOOGLE DRIVE\UAB - Arduino\Código Arduino
 
   DESCRIÇÃO:
   Código para coleta de dados do instrumento TRILHO HORIZONTAL ou QUEDA LIVRE.
@@ -50,14 +50,14 @@ void setup() {
   //Verificação do modulo SD card(Pino 4 é usado).
   if (SD.begin(4))
   {
-    Serial.print("Cartão SD pronto para uso./");
+    //Serial.print("Cartão SD pronto para uso./");
   } else
   {
-    Serial.print("Falha na inicialização do cartão SD/");
+    //Serial.print("Falha na inicialização do cartão SD/");
     return;
   }
   
-  Serial.print("Entre com a distancia em milimetros entre os sensores(1 valor)/");
+  //Serial.print("Entre com a distancia em milimetros entre os sensores(1 valor)/");
   String distancia_str = "";
   //Laço para colher dados a referentes da distancia entre sensores.
   //Apos 30 segundos atribuir um valor padrão de 200 mm.
@@ -72,13 +72,13 @@ void setup() {
 
     //Quando a distancia for maior que zero, saia do laço.
     if (distancia > 0) {
-      Serial.print("Distancia entre sensores configurada para: ");
-      Serial.print(distancia);
-      Serial.print(" mm/");
+      //Serial.print("Distancia entre sensores configurada para: ");
+      //Serial.print(distancia);
+      //Serial.print(" mm/");
       break;
     }
     else {
-      Serial.print("Entre com um valor valido!/");
+      //Serial.print("Entre com um valor valido!/");
       distancia_str = "";
     }
     delay(1000);
@@ -94,27 +94,27 @@ void loop() {
   if (digitalRead(S1) == LOW && sensor_atual == 5) {
     t1 = millis();
     sensor_atual = 1;
-    Serial.print("Sensor1/");
+    //Serial.print("Sensor1/");
   }
   if (digitalRead(S2) == LOW && sensor_atual == 1) {
     t2 = millis();
     sensor_atual = 2;
-    Serial.print("Sensor2/");
+    //Serial.print("Sensor2/");
   }
   if (digitalRead(S3) == LOW && sensor_atual == 2) {
     t3 = millis();
     sensor_atual = 3;
-    Serial.print("Sensor3/");
+    //Serial.print("Sensor3/");
   }
   if (digitalRead(S4) == LOW && sensor_atual == 3) {
     t4 = millis();
     sensor_atual = 4;
-    Serial.print("Sensor4/");
+    //Serial.print("Sensor4/");
   }
   if (digitalRead(S5) == LOW && sensor_atual == 4) {
     t5 = millis();
     sensor_atual = 5;
-    Serial.print("Sensor5/");
+    //Serial.print("Sensor5/");
     leitura = 1;
   }
   //Após a leitura de todos os sensores, calcula os tempos e velocidades.
@@ -156,23 +156,27 @@ void loop() {
       myFile.close();
     }
     
-    Serial.print("T1|");
+    Serial.print("Tempo1|");
     Serial.print(T1);
-    Serial.print("T2|");
+    delay(1000);
+    Serial.print("Tempo2|");
     Serial.print(T2);
-    Serial.print("T3|");
+    delay(1000);
+    Serial.print("Tempo3|");
     Serial.print(T3);
-    Serial.print("T4|");
+    delay(1000);
+    Serial.print("Tempo4|");
     Serial.print(T4);
+    delay(1000);
 
-//    Serial.print("v1|");
-//    Serial.print(v1, 6);
-//    Serial.print("v2|");
-//    Serial.print(v2, 6);   
-//    Serial.print("v3|");
-//    Serial.print(v3, 6);    
-//    Serial.print("v4|");
-//    Serial.print(v4, 6);
+    //Serial.print("v1|");
+    //Serial.print(v1, 6);
+    //Serial.print("v2|");
+    //Serial.print(v2, 6);   
+    //Serial.print("v3|");
+    //Serial.print(v3, 6);    
+    //Serial.print("v4|");
+    //Serial.print(v4, 6);
     
 
     delay(1000);

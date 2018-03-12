@@ -91,6 +91,6 @@ void loop()
 
 
   Serial.println("Experimento finalizado....");
-  //Serial.println("Reset o Arduino...");
-  // while (1); // loop infinito. reset o arduino para um novo experimento.
+  Serial.println("Reset o Arduino...");
+  while (1); // loop infinito. reset o arduino para um novo experimento.
 }

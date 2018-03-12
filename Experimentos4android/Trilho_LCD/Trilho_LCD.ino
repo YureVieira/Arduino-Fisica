@@ -206,7 +206,7 @@ void loop() {
     delay(1000);
     Serial.print("v4|");
     Serial.print(v4, 6);
-    delay(1000);
+
     //Escrita no LCD
     u8g.firstPage();
     do
