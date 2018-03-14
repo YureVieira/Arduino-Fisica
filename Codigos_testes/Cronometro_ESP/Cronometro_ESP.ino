@@ -1,8 +1,8 @@
-const int Sensor1 = A0;
-const int Sensor2 = A1;
-const int Sensor3 = A2;
-const int Sensor4 = A3;
-const int Sensor5 = A4;
+const int Sensor1 = D1;
+const int Sensor2 = D2;
+const int Sensor3 = D5;
+const int Sensor4 = D6;
+const int Sensor5 = D7;
 
 unsigned long t0; // tempo inicial
 unsigned long t1; // tempo final no sensor2
@@ -12,7 +12,7 @@ unsigned long t4; // tempo final no sensor5
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(Sensor1, INPUT);
   pinMode(Sensor2, INPUT);
   pinMode(Sensor3, INPUT);
@@ -24,12 +24,13 @@ void loop()
 {
   //Serial.print("Iniciando em 2s...");
   delay(2000); // aguarda dois segundos
+  Serial.println();
 
   // Sensor1 -------------------------------------------
   Serial.println("Aguardando a resposta do Sensor1...");
   while (digitalRead(Sensor1) == LOW)
   {
-    ; // Aguarda o primeiro sensor.
+    ESP.wdtFeed(); // Aguarda o primeiro sensor.
   }
   t0 = millis(); // captura o tempo corrente em t0
   Serial.print("t0 (ms) = "); Serial.println(t0);
@@ -38,7 +39,7 @@ void loop()
   Serial.println("Aguardando a resposta do Sensor2...");
   while (digitalRead(Sensor2) == HIGH)
   {
-    ; // Aguarda o segundo objeto.
+    ESP.wdtFeed(); // Aguarda o segundo objeto.
   }
 
   t1 = millis(); // captura o tempo corrente em t1
@@ -48,7 +49,7 @@ void loop()
   Serial.println("Aguardando a resposta do Sensor3...");
   while (digitalRead(Sensor3) == HIGH)
   {
-    ; // Aguarda o segundo objeto.
+    ESP.wdtFeed(); // Aguarda o segundo objeto.
   }
 
   t2 = millis(); // captura o tempo corrente em t2
@@ -58,7 +59,7 @@ void loop()
   Serial.println("Aguardando a resposta do Sensor4...");
   while (digitalRead(Sensor4) == HIGH)
   {
-    ; // Aguarda o segundo objeto.
+    ESP.wdtFeed(); // Aguarda o segundo objeto.
   }
 
   t3 = millis(); // captura o tempo corrente em t3
@@ -69,7 +70,7 @@ void loop()
   Serial.println("Aguardando a resposta do Sensor5...");
   while (digitalRead(Sensor5) == HIGH)
   {
-    ; // Aguarda o segundo objeto.
+    ESP.wdtFeed(); // Aguarda o segundo objeto.
   }
 
   t4 = millis(); // captura o tempo corrente em t4
@@ -92,5 +93,5 @@ void loop()
 
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
-  while (1); // loop infinito. reset o arduino para um novo experimento.
+  while (1){ESP.wdtFeed();}; // loop infinito. reset o arduino para um novo experimento.
 }

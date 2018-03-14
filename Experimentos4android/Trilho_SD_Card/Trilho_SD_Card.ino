@@ -61,7 +61,7 @@ void setup() {
   String distancia_str = "";
   //Laço para colher dados a referentes da distancia entre sensores.
   //Apos 30 segundos atribuir um valor padrão de 200 mm.
-  while (millis()<30000) {
+  while (millis()<1000) {
     while (Serial.available()) {
       char dado = Serial.read();
       distancia_str.concat(dado);
@@ -91,7 +91,7 @@ void setup() {
 // Laco principal do programa
 void loop() {
   //Leitura dos sensores de obstaculos
-  if (digitalRead(S1) == LOW && sensor_atual == 5) {
+  if (digitalRead(S1) == HIGH && sensor_atual == 5) {
     t1 = millis();
     sensor_atual = 1;
     //Serial.print("Sensor1/");
