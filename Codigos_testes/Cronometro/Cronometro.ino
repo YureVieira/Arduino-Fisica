@@ -36,30 +36,24 @@ void loop()
 
   // Sensor2 -------------------------------------------
   Serial.println("Aguardando a resposta do Sensor2...");
-  while (digitalRead(Sensor2) == HIGH)
-  {
-    ; // Aguarda o segundo objeto.
-  }
+  while (digitalRead(Sensor2) == HIGH);
+  while (digitalRead(Sensor2) == LOW);
 
   t1 = millis(); // captura o tempo corrente em t1
   Serial.print("t1 (ms) = "); Serial.println(t1);
 
   //Sensor3---------------------------------------------
   Serial.println("Aguardando a resposta do Sensor3...");
-  while (digitalRead(Sensor3) == HIGH)
-  {
-    ; // Aguarda o segundo objeto.
-  }
+  while (digitalRead(Sensor3) == HIGH);
+  while (digitalRead(Sensor3) == LOW);
 
   t2 = millis(); // captura o tempo corrente em t2
   Serial.print("t2 (ms) = "); Serial.println(t2);
 
   //Sensor4---------------------------------------------
   Serial.println("Aguardando a resposta do Sensor4...");
-  while (digitalRead(Sensor4) == HIGH)
-  {
-    ; // Aguarda o segundo objeto.
-  }
+  while (digitalRead(Sensor4) == HIGH);
+  while (digitalRead(Sensor4) == LOW);
 
   t3 = millis(); // captura o tempo corrente em t3
   Serial.print("t3 (ms) = "); Serial.println(t3);
@@ -67,10 +61,8 @@ void loop()
 
   //Sensor5---------------------------------------------
   Serial.println("Aguardando a resposta do Sensor5...");
-  while (digitalRead(Sensor5) == HIGH)
-  {
-    ; // Aguarda o segundo objeto.
-  }
+  while (digitalRead(Sensor5) == HIGH);
+  while (digitalRead(Sensor5) == LOW);
 
   t4 = millis(); // captura o tempo corrente em t4
   Serial.print("t4 (ms) = "); Serial.println(t4);
