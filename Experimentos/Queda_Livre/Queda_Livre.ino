@@ -25,7 +25,7 @@ const int sensor2 = A1;
 const int sensor3 = A2;
 const int sensor4 = A3;
 const int sensor5 = A4;
-const int Rele = A5;
+const int rele = A5;
 
 //const int pinTone = 8;
 
@@ -45,25 +45,28 @@ void setup()
   pinMode(sensor5, INPUT);
   pinMode(rele, OUTPUT);
   //pinMode(pinTone, OUTPUT);
+  Serial.println("Aguardando a resposta do sensor1...");
 }
 
 void loop()
 {
+  digitalWrite(rele,LOW);
   //Serial.print("Iniciando em 2s...");
-  delay(2000); // aguarda dois segundos
+  //delay(2000); // aguarda dois segundos
 
   // sensor1 -------------------------------------------
-  Serial.println("Aguardando a resposta do sensor1...");
+  //Serial.println("Aguardando a resposta do sensor1...");
   if(digitalRead(sensor1) == HIGH) return;
-
   t0 = millis(); // captura o tempo corrente em t0
   Serial.print("t0 (ms) = "); Serial.println(t0);
+  digitalWrite(rele,HIGH);
   //tone(pinTone, 800,50);
   // sensor2 -------------------------------------------
+  delay(50); // delay para desconsiderar interferencia desconhecida(investigar)
   Serial.println("Aguardando a resposta do sensor2...");
   while (digitalRead(sensor2) == HIGH);
   while (digitalRead(sensor2) == LOW);
-
+  
   t1 = millis(); // captura o tempo corrente em t1
   Serial.print("t1 (ms) = "); Serial.println(t1);
   //tone(pinTone, 800,50);
