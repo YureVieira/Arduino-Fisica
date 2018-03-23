@@ -39,47 +39,35 @@ void setup()
   pinMode(SENSOR3, INPUT);
   pinMode(SENSOR4, INPUT);
   pinMode(SENSOR5, INPUT);
-  Serial.println("Aguardando a resposta do SENSOR1...");
 }
 
 void loop()
 {
-  Serial.print("Iniciando em 2s...");
   delay(2000); // aguarda dois segundos
 
   // SENSOR1 -------------------------------------------
-  //Serial.println("Aguardando a resposta do SENSOR1...");
   if (digitalRead(SENSOR1) == HIGH) return;
   t0 = millis(); // captura o tempo corrente em t0
-  Serial.print("t0 (ms) = "); Serial.println(t0);
 
   // SENSOR2 -------------------------------------------
-  Serial.println("Aguardando a resposta do SENSOR2...");
   while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR2) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
   t1 = millis(); // captura o tempo corrente em t1
-  Serial.print("t1 (ms) = "); Serial.println(t1);
 
   //SENSOR3---------------------------------------------
-  Serial.println("Aguardando a resposta do SENSOR3...");
   while (digitalRead(SENSOR3) == HIGH);
   while (digitalRead(SENSOR3) == LOW);
   t2 = millis(); // captura o tempo corrente em t2
-  Serial.print("t2 (ms) = "); Serial.println(t2);
 
   //SENSOR4---------------------------------------------
-  Serial.println("Aguardando a resposta do SENSOR4...");
   while (digitalRead(SENSOR4) == HIGH);
   while (digitalRead(SENSOR4) == LOW);
   t3 = millis(); // captura o tempo corrente em t3
-  Serial.print("t3 (ms) = "); Serial.println(t3);
 
   //SENSOR5---------------------------------------------
-  Serial.println("Aguardando a resposta do SENSOR5...");
   while (digitalRead(SENSOR5) == HIGH);
   while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
-  Serial.print("t4 (ms) = "); Serial.println(t4);
 
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
@@ -93,16 +81,16 @@ void loop()
   v3 = 3 * distancia / T3;
   v4 = 4 * distancia / T4;
 
-  Serial.print("Tempo1:");
+  Serial.print("Tempo1|");
   Serial.print(T1);
   delay(1000);
-  Serial.print("Tempo2:");
+  Serial.print("Tempo2|");
   Serial.print(T2);
   delay(1000);
-  Serial.print("Tempo3:");
+  Serial.print("Tempo3|");
   Serial.print(T3);
   delay(1000);
-  Serial.print("Tempo4:");
+  Serial.print("Tempo4|");
   Serial.print(T4);
   delay(1000);
   //         Serial.print("v1: ");
