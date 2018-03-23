@@ -5,7 +5,7 @@
   ANALISTA: Antonio de Lisboa Coutinho Junior
   DESENVOLVEDOR: Yure Vieira Sampaio Albuquerque
   DATA: 22/03/2018
-  VERSÃO: 1.0
+  VERSÃO: 3.0
   REPOSITÓRIO: GOOGLE DRIVE\UAB - Arduino\Código Arduino
 
   DESCRIÇÃO:
@@ -20,83 +20,67 @@
 
   --------------------------------------------------------------------------*/
 
-const int sensor1 = A0;
-const int sensor2 = A1;
-const int sensor3 = A2;
-const int sensor4 = A3;
-const int sensor5 = A4;
-const int rele = A5;
-
-//const int pinTone = 8;
+#define SENSOR1 A0
+#define SENSOR2 A1
+#define SENSOR3 A2
+#define SENSOR4 A3
+#define SENSOR5 A4
 
 unsigned long t0; // tempo inicial
-unsigned long t1; // tempo final no sensor2
-unsigned long t2; // tempo final no sensor3
-unsigned long t3; // tempo final no sensor4
-unsigned long t4; // tempo final no sensor5
+unsigned long t1; // tempo final no SENSOR2
+unsigned long t2; // tempo final no SENSOR3
+unsigned long t3; // tempo final no SENSOR4
+unsigned long t4; // tempo final no SENSOR5
 
 void setup()
 {
   Serial.begin(9600);
-  pinMode(sensor1, INPUT_PULLUP); //Botão
-  pinMode(sensor2, INPUT);
-  pinMode(sensor3, INPUT);
-  pinMode(sensor4, INPUT);
-  pinMode(sensor5, INPUT);
-  pinMode(rele, OUTPUT);
-  //pinMode(pinTone, OUTPUT);
-  Serial.println("Aguardando a resposta do sensor1...");
+  pinMode(SENSOR1, INPUT_PULLUP); //Botão
+  pinMode(SENSOR2, INPUT);
+  pinMode(SENSOR3, INPUT);
+  pinMode(SENSOR4, INPUT);
+  pinMode(SENSOR5, INPUT);
+  Serial.println("Aguardando a resposta do SENSOR1...");
 }
 
 void loop()
 {
-  digitalWrite(rele,LOW);
-  //Serial.print("Iniciando em 2s...");
-  //delay(2000); // aguarda dois segundos
+  Serial.print("Iniciando em 2s...");
+  delay(2000); // aguarda dois segundos
 
-  // sensor1 -------------------------------------------
-  //Serial.println("Aguardando a resposta do sensor1...");
-  if(digitalRead(sensor1) == HIGH) return;
+  // SENSOR1 -------------------------------------------
+  //Serial.println("Aguardando a resposta do SENSOR1...");
+  if(digitalRead(SENSOR1) == HIGH) return;
   t0 = millis(); // captura o tempo corrente em t0
   Serial.print("t0 (ms) = "); Serial.println(t0);
-  digitalWrite(rele,HIGH);
-  //tone(pinTone, 800,50);
-  // sensor2 -------------------------------------------
-  delay(50); // delay para desconsiderar interferencia desconhecida(investigar)
-  Serial.println("Aguardando a resposta do sensor2...");
-  while (digitalRead(sensor2) == HIGH);
-  while (digitalRead(sensor2) == LOW);
-  
+
+  // SENSOR2 -------------------------------------------
+  Serial.println("Aguardando a resposta do SENSOR2...");
+  while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
+  while (digitalRead(SENSOR2) == LOW);//Momento que o corpo sai do raio de cobertura do sensor  
   t1 = millis(); // captura o tempo corrente em t1
   Serial.print("t1 (ms) = "); Serial.println(t1);
-  //tone(pinTone, 800,50);
-  //sensor3---------------------------------------------
-  Serial.println("Aguardando a resposta do sensor3...");
-  while (digitalRead(sensor3) == HIGH);
-  while (digitalRead(sensor3) == LOW);
-
+  
+  //SENSOR3---------------------------------------------
+  Serial.println("Aguardando a resposta do SENSOR3...");
+  while (digitalRead(SENSOR3) == HIGH);
+  while (digitalRead(SENSOR3) == LOW);
   t2 = millis(); // captura o tempo corrente em t2
   Serial.print("t2 (ms) = "); Serial.println(t2);
-  //tone(pinTone, 800,50);
-  //sensor4---------------------------------------------
-  Serial.println("Aguardando a resposta do sensor4...");
-  while (digitalRead(sensor4) == HIGH);
-  while (digitalRead(sensor4) == LOW);
-
+  
+  //SENSOR4---------------------------------------------
+  Serial.println("Aguardando a resposta do SENSOR4...");
+  while (digitalRead(SENSOR4) == HIGH);
+  while (digitalRead(SENSOR4) == LOW);
   t3 = millis(); // captura o tempo corrente em t3
   Serial.print("t3 (ms) = "); Serial.println(t3);
-  //tone(pinTone, 800,50);
-  //sensor5---------------------------------------------
-  Serial.println("Aguardando a resposta do sensor5...");
-  while (digitalRead(sensor5) == HIGH);
-  while (digitalRead(sensor5) == LOW);
-
+  
+  //SENSOR5---------------------------------------------
+  Serial.println("Aguardando a resposta do SENSOR5...");
+  while (digitalRead(SENSOR5) == HIGH);
+  while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
   Serial.print("t4 (ms) = "); Serial.println(t4);
-  //tone(pinTone, 800,50);
-
-
-
 
   // Calculo -------------------------------------------
   //Serial.print("Tempo decorrido 1_2 (ms): ");
@@ -107,9 +91,7 @@ void loop()
   Serial.println(t3 - t0);
   //Serial.print("Tempo decorrido 1_5 (ms): ");
   Serial.println(t4 - t0);
-
   delay(1000);
-  //notone(pinTone);
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
   while (1); // loop infinito. reset o arduino para um novo experimento.
