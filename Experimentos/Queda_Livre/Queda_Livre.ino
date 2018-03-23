@@ -93,18 +93,10 @@ void loop()
   v3 = 3 * distancia / T3;
   v4 = 4 * distancia / T4;
 
-  Serial.print("Tempo1:");
   Serial.print(T1);
-  delay(1000);
-  Serial.print("Tempo2:");
   Serial.print(T2);
-  delay(1000);
-  Serial.print("Tempo3:");
   Serial.print(T3);
-  delay(1000);
-  Serial.print("Tempo4:");
   Serial.print(T4);
-  delay(1000);
   //         Serial.print("v1: ");
   //         Serial.print(v1, 6);
   //         Serial.print("v2: ");
