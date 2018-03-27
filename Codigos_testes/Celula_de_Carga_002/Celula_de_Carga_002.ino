@@ -1,13 +1,13 @@
 #include "HX711.h"
+#define DOUT 5
+#define PD_SCK 4
 
 HX711 cell;
 
 void setup() {
   Serial.begin(115200);
   // parameter "gain" is ommited; the default value 128 is used by the library
-  // HX711.DOUT  - pin #A1
-  // HX711.PD_SCK - pin #A0
-  cell.begin(A1, A0, 64);//.., .., Gain
+cell.begin(DOUT, PD_SCK, 128);//.., .., Gain
   //  cell.set_offset(4018518);
   cell.set_scale(10000.0);
 }
