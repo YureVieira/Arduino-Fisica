@@ -27,7 +27,7 @@
 #define SENSOR5 A4
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
-float T1=200, T2=100, T3=50, T4=25;                                 //Tempos entre sensores.
+float T1 = 200, T2 = 100, T3 = 50, T4 = 25;                         //Tempos entre sensores.
 float v1, v2, v3, v4;                                 //Velocidades médias durante a passagem por cada cada sensor.
 float distancia = 210.0;                               //Distancia entre sensores.
 
@@ -43,56 +43,57 @@ void setup()
 
 void loop()
 {
-//  delay(2000); // aguarda dois segundos
-//
-//  // SENSOR1 -------------------------------------------
-//  if (digitalRead(SENSOR1) == HIGH) return;
-//  t0 = millis(); // captura o tempo corrente em t0
-//
-//  // SENSOR2 -------------------------------------------
-//  while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
-//  while (digitalRead(SENSOR2) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
-//  t1 = millis(); // captura o tempo corrente em t1
-//
-//  //SENSOR3---------------------------------------------
-//  while (digitalRead(SENSOR3) == HIGH);
-//  while (digitalRead(SENSOR3) == LOW);
-//  t2 = millis(); // captura o tempo corrente em t2
-//
-//  //SENSOR4---------------------------------------------
-//  while (digitalRead(SENSOR4) == HIGH);
-//  while (digitalRead(SENSOR4) == LOW);
-//  t3 = millis(); // captura o tempo corrente em t3
-//
-//  //SENSOR5---------------------------------------------
-//  while (digitalRead(SENSOR5) == HIGH);
-//  while (digitalRead(SENSOR5) == LOW);
-//  t4 = millis(); // captura o tempo corrente em t4
+  //  delay(2000); // aguarda dois segundos
+  //
+  //  // SENSOR1 -------------------------------------------
+  //  if (digitalRead(SENSOR1) == HIGH) return;
+  //  t0 = millis(); // captura o tempo corrente em t0
+  //
+  //  // SENSOR2 -------------------------------------------
+  //  while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
+  //  while (digitalRead(SENSOR2) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
+  //  t1 = millis(); // captura o tempo corrente em t1
+  //
+  //  //SENSOR3---------------------------------------------
+  //  while (digitalRead(SENSOR3) == HIGH);
+  //  while (digitalRead(SENSOR3) == LOW);
+  //  t2 = millis(); // captura o tempo corrente em t2
+  //
+  //  //SENSOR4---------------------------------------------
+  //  while (digitalRead(SENSOR4) == HIGH);
+  //  while (digitalRead(SENSOR4) == LOW);
+  //  t3 = millis(); // captura o tempo corrente em t3
+  //
+  //  //SENSOR5---------------------------------------------
+  //  while (digitalRead(SENSOR5) == HIGH);
+  //  while (digitalRead(SENSOR5) == LOW);
+  //  t4 = millis(); // captura o tempo corrente em t4
 
   // Calculo -------------------------------------------
-//  T1 = (t1 - t0) ;
-//  T2 = (t2 - t0) ;
-//  T3 = (t3 - t0) ;
-//  T4 = (t4 - t0) ;
-//
-//  //Calculo da Velocidade.
-//  v1 = distancia / T1;
-//  v2 = 2 * distancia / T2;
-//  v3 = 3 * distancia / T3;
-//  v4 = 4 * distancia / T4;
+  //  T1 = (t1 - t0) ;
+  //  T2 = (t2 - t0) ;
+  //  T3 = (t3 - t0) ;
+  //  T4 = (t4 - t0) ;
+  //
+  //  //Calculo da Velocidade.
+  //  v1 = distancia / T1;
+  //  v2 = 2 * distancia / T2;
+  //  v3 = 3 * distancia / T3;
+  //  v4 = 4 * distancia / T4;
 
-//  Serial.print("Tempo1|");
+  //  Serial.print("Tempo1|");
+  delay(10000);
   Serial.println(T1);
-//  delay(1000);
-//  Serial.print("Tempo2|");
+  //  delay(1000);
+  //  Serial.print("Tempo2|");
   Serial.println(T2);
-//  delay(1000);
-//  Serial.print("Tempo3|");
+  //  delay(1000);
+  //  Serial.print("Tempo3|");
   Serial.println(T3);
-//  delay(1000);
-//  Serial.print("Tempo4|");
+  //  delay(1000);
+  //  Serial.print("Tempo4|");
   Serial.println(T4);
-//  delay(1000);
+  //  delay(1000);
   //         Serial.print("v1: ");
   //         Serial.print(v1, 6);
   //         Serial.print("v2: ");

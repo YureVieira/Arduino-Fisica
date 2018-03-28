@@ -5,6 +5,7 @@ import serial
 b_rate = 115200 #baud rate
 porta = 'COM22'  #nome da porta criada para o arduino
 ser = serial.Serial(porta,b_rate)
+print 'Aguardando o termino do experimento...'
 
 temp_1 = ser.readline()
 		
