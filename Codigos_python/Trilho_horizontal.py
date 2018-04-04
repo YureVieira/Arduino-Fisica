@@ -5,7 +5,7 @@ import serial
 #baud rate
 b_rate = 115200
 #nome da porta criada para o arduino
-porta = 'COM22'
+porta = 'COM5'
 
 ser = serial.Serial(porta,b_rate)
 print u'Aguardando o término do experimento...'
@@ -30,7 +30,7 @@ fig = plt.figure()
 rect = fig.patch
 rect.set_facecolor('white')
 
-ax1 = fig.add_subplot(1, 1, 1, axisbg='white')
+ax1 = fig.add_subplot(1, 1, 1)
 ax1.tick_params(axis='x', colors='black',)
 ax1.tick_params(axis='y', colors='black')
 

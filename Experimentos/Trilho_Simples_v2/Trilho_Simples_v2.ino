@@ -19,11 +19,11 @@
 
   --------------------------------------------------------------------------*/
 
-#define SENSOR1 A0
-#define SENSOR2 A1
-#define SENSOR3 A2
-#define SENSOR4 A3
-#define SENSOR5 A4
+#define SENSOR1 8
+#define SENSOR2 9
+#define SENSOR3 10
+#define SENSOR4 11
+#define SENSOR5 12
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
 float T1, T2 , T3, T4;                         //Tempos entre sensores.
@@ -82,7 +82,7 @@ void loop()
   v4 = 4 * distancia / T4;
 
   //  Serial.print("Tempo1|");
-  delay(10000);
+ //delay(10000);
   Serial.println(T1);
   //  delay(1000);
   //  Serial.print("Tempo2|");

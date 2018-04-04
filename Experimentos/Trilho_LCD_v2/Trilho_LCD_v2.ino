@@ -97,35 +97,35 @@ void setup() {
   pinMode(SENSOR4, INPUT);
   pinMode(SENSOR5, INPUT);
   //Comunicação serial configurada.
-  Serial.begin (9600);
+  Serial.begin (115200);
 
-  Serial.println("Entre com a distancia em milimetros entre os sensores(1 valor)");
-  String distancia_str;
-  //Laço para colher dados a referentes da distancia entre sensores.
-  while (1)
-  {
-    while (Serial.available()) {
-      char dado = Serial.read();
-      distancia_str.concat(dado);
-    }
-
-    //Conversão de string para float(texto p/ numero decimal)
-    distancia = distancia_str.toFloat();
-
-    //Quando a distancia for maior que zero, saia do laço.
-    if (distancia > 0) {
-      Serial.print("Distancia entre sensores configurada para: ");
-      Serial.print(distancia);
-      Serial.println(" mm");
-      break;
-    }
-    else {
-      Serial.println("Entre com um valor valido!");
-      distancia_str = "";
-    }
-    delay(1000);
-  }
-  Serial.println("Sistema pronto");
+//  Serial.println("Entre com a distancia em milimetros entre os sensores(1 valor)");
+//  String distancia_str;
+//  //Laço para colher dados a referentes da distancia entre sensores.
+//  while (1)
+//  {
+//    while (Serial.available()) {
+//      char dado = Serial.read();
+//      distancia_str.concat(dado);
+//    }
+//
+//    //Conversão de string para float(texto p/ numero decimal)
+//    distancia = distancia_str.toFloat();
+//
+//    //Quando a distancia for maior que zero, saia do laço.
+//    if (distancia > 0) {
+//      Serial.print("Distancia entre sensores configurada para: ");
+//      Serial.print(distancia);
+//      Serial.println(" mm");
+//      break;
+//    }
+//    else {
+//      Serial.println("Entre com um valor valido!");
+//      distancia_str = "";
+//    }
+//    delay(1000);
+//  }
+//  Serial.println("Sistema pronto");
   u8g.setRot180();//Flip do texto no lcd(se necessario)
   u8g_prepare();
   u8g.firstPage();
@@ -178,7 +178,7 @@ void loop() {
   v4 = 4 * distancia / T4;
 
   //  Serial.print("Tempo1|");
-  delay(10000);
+  //delay(10000);
   Serial.println(T1);
   //  delay(1000);
   //  Serial.print("Tempo2|");
