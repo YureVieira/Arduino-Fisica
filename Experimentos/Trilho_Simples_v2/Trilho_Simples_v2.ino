@@ -32,7 +32,7 @@ float distancia = 210.0;                               //Distancia entre sensore
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(SENSOR1, INPUT);
   pinMode(SENSOR2, INPUT);
   pinMode(SENSOR3, INPUT);
