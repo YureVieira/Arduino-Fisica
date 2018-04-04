@@ -10,13 +10,16 @@ porta = 'COM22'
 ser = serial.Serial(porta,b_rate)
 
 #Mostra mensagens pre-experimento
-while(1):
-    mensagem = ser.readline()
-    print mensagem
-    if mensagem == '[START]/r':
-        break
+while 1:
+    if ser.inWaiting():
+        mensagem = ser.readline()
+        print mensagem
+        #Mensagem "[START]\r\n" sinaliza que daqui para frente serão enviados dados dos sensores
+        if mensagem == '[START]\r\n':
+            print 'Saindo!'
+            break
 print u'Aguardando o término do experimento...'
-
+#Colhe os 4 tempos
 tempo_1 = ser.readline()
 		
 tempo_2 = ser.readline()
