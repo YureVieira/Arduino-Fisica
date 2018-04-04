@@ -49,9 +49,14 @@ void setup()
 void loop()
 {
   delay(2000); // aguarda dois segundos
+  Serial.println("[START]");
+
+  //Enquanto botão estiver em HIGH(livre),fique preso no laço.
   while (digitalRead(BOTÂO) == HIGH);
+  //Acione o rele para soltar o corpo
   digitalWrite(RELE,LOW);
-  t0 = millis(); // captura o tempo corrente em t0
+  // captura o tempo corrente em t0
+  t0 = millis();   
   //SENSOR1 -------------------------------------------
 //  while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
 //  while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor

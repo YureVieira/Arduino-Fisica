@@ -64,11 +64,11 @@ void setup() {
   pinMode (SENSOR5, INPUT);
   //Comunicação serial configurada.
   Serial.begin (115200);
-  //  Serial.println("Inicializando MPU6050");
+  Serial.println("Inicializando MPU6050");
   //Tentativa de conexão com modulo MPU6050.
   while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
-    //    Serial.println("Não foi possível encontrar um sensor MPU6050 válido, verificar a fiação!");
+    Serial.println("Não foi possível encontrar um sensor MPU6050 válido, verificar a fiação!");
     delay(500);
   }
 }
@@ -77,7 +77,7 @@ void setup() {
 // Laco principal do programa
 void loop() {
   delay(2000); // aguarda dois segundos
-
+  Serial.println("[START]");
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
@@ -118,7 +118,7 @@ void loop() {
   //Leitura do angulo
   angulo = getAngleMPU();
 
-//  Serial.print("Tempo1|");
+  //  Serial.print("Tempo1|");
   //delay(10000);
   Serial.println(T1);
   //  delay(1000);

@@ -5,24 +5,31 @@ import serial
 #baud rate
 b_rate = 115200
 #nome da porta criada para o arduino
-porta = 'COM5'
+porta = 'COM22'
 
 ser = serial.Serial(porta,b_rate)
+
+#Mostra mensagens pre-experimento
+while(1):
+    mensagem = ser.readline()
+    print mensagem
+    if mensagem == '[START]/r':
+        break
 print u'Aguardando o término do experimento...'
 
-temp_1 = ser.readline()
+tempo_1 = ser.readline()
 		
-temp_2 = ser.readline()
+tempo_2 = ser.readline()
 
-temp_3 = ser.readline()
+tempo_3 = ser.readline()
 
-temp_4 = ser.readline()
+tempo_4 = ser.readline()
 #Encerra a conexão
 ser.close()
 
-print temp_1,temp_2,temp_3,temp_4
+print tempo_1,tempo_2,tempo_3,tempo_4
 
-x1 = np.array([float(temp_1),float(temp_2), float(temp_3), float(temp_4)])
+x1 = np.array([float(tempo_1),float(tempo_2), float(tempo_3), float(tempo_4)])
 y1 = np.array([222, 385, 585, 780])
 
 #cor do fundo do grafico

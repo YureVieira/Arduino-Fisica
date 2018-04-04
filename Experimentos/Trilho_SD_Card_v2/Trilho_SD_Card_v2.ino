@@ -44,14 +44,14 @@ void setup() {
   pinMode (SENSOR4, INPUT);
   pinMode (SENSOR5, INPUT);
   //Comunicação serial configurada.
-  Serial.begin (9600);
+  Serial.begin (115200);
   //Verificação do modulo SD card(Pino 4 é usado).
   if (SD.begin(4))
   {
-//    Serial.println("Cartão SD pronto para uso.");
+    Serial.println("Cartão SD pronto para uso.");
   } else
   {
-//    Serial.println("Falha na inicialização do cartão SD");
+    Serial.println("Falha na inicialização do cartão SD");
     return;
   }
 }
@@ -59,7 +59,8 @@ void setup() {
 // Laco principal do programa
 void loop() {
   delay(2000); // aguarda dois segundos
-
+  Serial.println("[START]");
+  
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor

@@ -43,6 +43,7 @@ void setup()
 void loop()
 {
   delay(2000); // aguarda dois segundos
+  Serial.println("[START]");
 
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
