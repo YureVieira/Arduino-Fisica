@@ -26,8 +26,8 @@
 #define SENSOR3 A2
 #define SENSOR4 A3
 #define SENSOR5 A4
-#define S_TX 8
-#define S_RX 9
+#define S_TX 2
+#define S_RX 3
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
 float T1, T2, T3, T4;                                 //Tempos entre sensores.
@@ -49,9 +49,10 @@ void setup()
 void loop()
 {
   delay(2000); // aguarda dois segundos
-
-  // SENSOR1 -------------------------------------------
-  if (digitalRead(SENSOR1) == HIGH) return;
+  Serial.println("[START]");
+  //SENSOR1 -------------------------------------------
+  while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
+  while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
   t0 = millis(); // captura o tempo corrente em t0
 
   // SENSOR2 -------------------------------------------
@@ -85,7 +86,7 @@ void loop()
   v2 = 2 * distancia / T2;
   v3 = 3 * distancia / T3;
   v4 = 4 * distancia / T4;
-  
+
   //dados para a usb
   Serial.println(T1);
   //  delay(1000);

@@ -5,7 +5,7 @@ import serial
 #baud rate
 b_rate = 115200
 #nome da porta criada para o arduino
-porta = 'COM22'
+porta = 'COM7'
 
 ser = serial.Serial(porta,b_rate)
 
