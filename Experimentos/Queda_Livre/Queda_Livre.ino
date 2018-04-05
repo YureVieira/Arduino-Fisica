@@ -43,7 +43,7 @@ void setup()
   pinMode(SENSOR5, INPUT);
   pinMode(BOTAO, INPUT_PULLUP);
   pinMode(RELE, OUTPUT);
-  digitalWrite(RELE,HIGH);
+  digitalWrite(RELE, HIGH);
 }
 
 void loop()
@@ -51,16 +51,16 @@ void loop()
   delay(2000); // aguarda dois segundos
   Serial.println("[START]");
 
-  //Enquanto botão estiver em HIGH(livre),fique preso no laço.
-  while (digitalRead(BOTÂO) == HIGH);
-  //Acione o rele para soltar o corpo
-  digitalWrite(RELE,LOW);
-  // captura o tempo corrente em t0
-  t0 = millis();   
+//  //Enquanto botão estiver em HIGH(livre),fique preso no laço.
+//  while (digitalRead(BOTAO) == HIGH);
+//  //Acione o rele para soltar o corpo
+//  digitalWrite(RELE, LOW);
+//  // captura o tempo corrente em t0
+//  t0 = millis();
   //SENSOR1 -------------------------------------------
-//  while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
-//  while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
-//  t0 = millis(); // captura o tempo corrente em t0
+    while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
+    while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
+    t0 = millis(); // captura o tempo corrente em t0
 
   //SENSOR2 -------------------------------------------
   while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
@@ -95,7 +95,7 @@ void loop()
   v4 = 4 * distancia / T4;
 
   //  Serial.print("Tempo1|");
-  delay(10000);
+  //delay(10000);
   Serial.println(T1);
   //  delay(1000);
   //  Serial.print("Tempo2|");
@@ -118,3 +118,4 @@ void loop()
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
   while (1); // loop infinito. reset o arduino para um novo experimento.
+}
