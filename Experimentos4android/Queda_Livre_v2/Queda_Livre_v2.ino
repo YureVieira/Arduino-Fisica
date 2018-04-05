@@ -4,7 +4,7 @@
   PROJETO: Física com Arduino
   ANALISTA: Antonio de Lisboa Coutinho Junior
   DESENVOLVEDOR: Yure Vieira Sampaio Albuquerque
-  DATA: 04/04/2018
+  DATA: 05/04/2018
   VERSÃO: 4.0
   REPOSITÓRIO: GOOGLE DRIVE\UAB - Arduino\Código Arduino
 
@@ -19,50 +19,42 @@
   É necessário introduzir no Monitor Serial do Arduino a distância entre os sensores.
 
   --------------------------------------------------------------------------*/
+#include <SoftwareSerial.h>
 
 #define SENSOR1 A0
 #define SENSOR2 A1
 #define SENSOR3 A2
 #define SENSOR4 A3
 #define SENSOR5 A4
-//#define BOTAO 7     //pino para botão que aciona do rele e tomar o primeiro tempo
-//#define RELE 8     //Pino para controlar rele
+#define S_TX 8
+#define S_RX 9
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
-float T1, T2 , T3, T4;                         //Tempos entre sensores.
+float T1, T2, T3, T4;                                 //Tempos entre sensores.
 float v1, v2, v3, v4;                                 //Velocidades médias durante a passagem por cada cada sensor.
 float distancia = 210.0;                               //Distancia entre sensores.
 
+SoftwareSerial bluetooth(S_RX, S_TX);
 void setup()
 {
-  Serial.begin(115200);
-  pinMode(SENSOR1, INPUT);
+  Serial.begin(115200);//Debug
+  bluetooth.begin(9600);//Porta para bluetooth
+  pinMode(SENSOR1, INPUT); //Botão
   pinMode(SENSOR2, INPUT);
   pinMode(SENSOR3, INPUT);
   pinMode(SENSOR4, INPUT);
   pinMode(SENSOR5, INPUT);
-//  pinMode(BOTAO, INPUT_PULLUP);
-//  pinMode(RELE, OUTPUT);
-//  digitalWrite(RELE, HIGH);
 }
 
 void loop()
 {
   delay(2000); // aguarda dois segundos
-  Serial.println("[START]");
 
-//  //Enquanto botão estiver em HIGH(livre),fique preso no laço.
-//  while (digitalRead(BOTAO) == HIGH);
-//  //Acione o rele para soltar o corpo
-//  digitalWrite(RELE, LOW);
-//  // captura o tempo corrente em t0
-//  t0 = millis();
-  //SENSOR1 -------------------------------------------
-    while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
-    while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
-    t0 = millis(); // captura o tempo corrente em t0
+  // SENSOR1 -------------------------------------------
+  if (digitalRead(SENSOR1) == HIGH) return;
+  t0 = millis(); // captura o tempo corrente em t0
 
-  //SENSOR2 -------------------------------------------
+  // SENSOR2 -------------------------------------------
   while (digitalRead(SENSOR2) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR2) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
   t1 = millis(); // captura o tempo corrente em t1
@@ -93,9 +85,8 @@ void loop()
   v2 = 2 * distancia / T2;
   v3 = 3 * distancia / T3;
   v4 = 4 * distancia / T4;
-
-  //  Serial.print("Tempo1|");
-  //delay(10000);
+  
+  //dados para a usb
   Serial.println(T1);
   //  delay(1000);
   //  Serial.print("Tempo2|");
@@ -106,7 +97,20 @@ void loop()
   //  delay(1000);
   //  Serial.print("Tempo4|");
   Serial.println(T4);
-  //  delay(1000);
+
+  //Dados enviados por bluetooth
+  bluetooth.print("Tempo1|");
+  bluetooth.print(T1);
+  delay(1000);
+  bluetooth.print("Tempo2|");
+  bluetooth.print(T2);
+  delay(1000);
+  bluetooth.print("Tempo3|");
+  bluetooth.print(T3);
+  delay(1000);
+  bluetooth.print("Tempo4|");
+  bluetooth.print(T4);
+  delay(1000);
   //         Serial.print("v1: ");
   //         Serial.print(v1, 6);
   //         Serial.print("v2: ");
