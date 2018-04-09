@@ -102,7 +102,7 @@ void loop() {
     delay(250);
   }
   LCD_NovaMensagem("Plano inclinado");
-    LCD_Mensagem("Pronto P/ uso", 0, 1); //0->primeira coluna; 1->segunda linha
+  LCD_Mensagem("Pronto P/ uso", 0, 1);
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH); //Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
@@ -166,6 +166,33 @@ void loop() {
   //         Serial.print(v4, 6);
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
-  while (1); // loop infinito. reset o arduino para um novo experimento.
-}
+  while (1) { // loop infinito. reset o arduino para um novo experimento.
+    while (digitalRead(SENSOR1) == HIGH);//Substituir um push button no futuro
+    LCD_NovaMensagem("Tempo1: ");
+    LCD_Mensagem(String(T1), 8, 0)
+    LCD_Mensagem("Tempo2: ", 0, 1);
+    LCD_Mensagem(String(T2) ,8,1);
+                 while (digitalRead(SENSOR1) == HIGH);
+                 LCD_NovaMensagem("Tempo3: ");
+                 LCD_Mensagem(String(T3),8,0)
+                 LCD_Mensagem("Tempo4: ",0,1);
+                 LCD_Mensagem(String(T4) , 8, 1);
+    while (digitalRead(SENSOR1) == HIGH);
+    LCD_NovaMensagem("Vel1: ");
+    LCD_Mensagem(String(T1), 8, 0)
+    LCD_Mensagem("Vel2: ", 0, 1);
+    LCD_Mensagem(String(T2) ,8,1);
+                 while (digitalRead(SENSOR1) == HIGH);
+                 LCD_NovaMensagem("Vel3: ");
+                 LCD_Mensagem(String(T3),6,0)
+                 LCD_Mensagem("Vel4: ",0,1);
+                 LCD_Mensagem(String(T4) ", 6, 1);
+    while (digitalRead(SENSOR1) == HIGH);
+    LCD_NovaMensagem("Angulo: ");
+    LCD_Mensagem(String(angulo), 8, 0)
+    LCD_Mensagem("AG: ", 0, 1);
+    LCD_Mensagem("????", 4, 1);
+
+               }
+               }
 
