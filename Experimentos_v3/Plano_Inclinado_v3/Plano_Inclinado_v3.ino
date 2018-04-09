@@ -167,32 +167,37 @@ void loop() {
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
   while (1) { // loop infinito. reset o arduino para um novo experimento.
-    while (digitalRead(SENSOR1) == HIGH);//Substituir um push button no futuro
+    //while (digitalRead(SENSOR5) == HIGH);//Substituir um push button no futuro
     LCD_NovaMensagem("Tempo1: ");
-    LCD_Mensagem(String(T1), 8, 0)
+    LCD_Mensagem(String(T1), 8, 0);
     LCD_Mensagem("Tempo2: ", 0, 1);
-    LCD_Mensagem(String(T2) ,8,1);
-                 while (digitalRead(SENSOR1) == HIGH);
-                 LCD_NovaMensagem("Tempo3: ");
-                 LCD_Mensagem(String(T3),8,0)
-                 LCD_Mensagem("Tempo4: ",0,1);
-                 LCD_Mensagem(String(T4) , 8, 1);
-    while (digitalRead(SENSOR1) == HIGH);
+    LCD_Mensagem(String(T2) , 8, 1);
+    delay(2000);
+    while (digitalRead(SENSOR5) == HIGH);
+    LCD_NovaMensagem("Tempo3: ");
+    LCD_Mensagem(String(T3), 8, 0);
+    LCD_Mensagem("Tempo4: ", 0, 1);
+    LCD_Mensagem(String(T4) , 8, 1);
+    delay(2000);
+    while (digitalRead(SENSOR5) == HIGH);
     LCD_NovaMensagem("Vel1: ");
-    LCD_Mensagem(String(T1), 8, 0)
+    LCD_Mensagem(String(T1), 6, 0);
     LCD_Mensagem("Vel2: ", 0, 1);
-    LCD_Mensagem(String(T2) ,8,1);
-                 while (digitalRead(SENSOR1) == HIGH);
-                 LCD_NovaMensagem("Vel3: ");
-                 LCD_Mensagem(String(T3),6,0)
-                 LCD_Mensagem("Vel4: ",0,1);
-                 LCD_Mensagem(String(T4) ", 6, 1);
-    while (digitalRead(SENSOR1) == HIGH);
+    LCD_Mensagem(String(T2) , 6, 1);
+    delay(2000);
+    while (digitalRead(SENSOR5) == HIGH);
+    LCD_NovaMensagem("Vel3: ");
+    LCD_Mensagem(String(T3), 6, 0);
+    LCD_Mensagem("Vel4: ", 0, 1);
+    LCD_Mensagem(String(T4), 6, 1);
+    delay(2000);
+    while (digitalRead(SENSOR5) == HIGH);
     LCD_NovaMensagem("Angulo: ");
-    LCD_Mensagem(String(angulo), 8, 0)
+    LCD_Mensagem(String(angulo), 8, 0);
     LCD_Mensagem("AG: ", 0, 1);
     LCD_Mensagem("????", 4, 1);
-
-               }
-               }
+    delay(2000);
+    while (digitalRead(SENSOR5) == HIGH);
+  }
+}
 
