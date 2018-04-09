@@ -95,12 +95,16 @@ void setup() {
 void loop() {
   delay(2000); // aguarda dois segundos
   Serial.println("[START]");
-  //SENSOR1 -------------------------------------------
-  while (digitalRead(SENSOR1) == HIGH) { //Momento que o corpo entra no raio de cobertura do sensor
+  while (digitalRead(SENSOR5) == HIGH) { //Usando ultimo sensor como chave de escolha do angulo
     LCD_NovaMensagem("Plano inclinado");
-    LCD_Mensagem("Angulo: ",0, 1); //0->primeira coluna; 1->segunda linha
+    LCD_Mensagem("Angulo: ", 0, 1); //0->primeira coluna; 1->segunda linha
     LCD_Mensagem(String(getAngleMPU()), 8, 1); //8->nona coluna; 1->segunda linha
+    delay(250);
   }
+  LCD_NovaMensagem("Plano inclinado");
+    LCD_Mensagem("Pronto P/ uso", 0, 1); //0->primeira coluna; 1->segunda linha
+  //SENSOR1 -------------------------------------------
+  while (digitalRead(SENSOR1) == HIGH); //Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
   t0 = millis(); // captura o tempo corrente em t0
 
