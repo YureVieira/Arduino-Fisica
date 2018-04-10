@@ -20,22 +20,25 @@
   Dados são mostrados em um modulo lcd 16x2 i2c.
 
   --------------------------------------------------------------------------*/
+#include <SPI.h>                  //Biblioteca necessária para usar o modulo cartão sd.
+#include <SD.h>
 #include <Wire.h>
 #include <MPU6050.h>              //Biblioteca para o modulo giroscopio/acelerômetro.
 #include <LiquidCrystal_I2C.h>    //Biblioteca para o modulo LCD-i2c.
 #include <SoftwareSerial.h>       //Biblioteca usada com bluetooth
 
-#define SENSOR1 4
-#define SENSOR2 5
-#define SENSOR3 6
-#define SENSOR4 7
-#define SENSOR5 8
-#define BOTAO 7
-#define S_TX 2
-#define S_RX 3
+#define SENSOR1 5       //Primeiro sensor.
+#define SENSOR2 6
+#define SENSOR3 7
+#define SENSOR4 8
+#define SENSOR5 9       //Ultimo sensor.
+#define BOTAO A0        //Botão para funções.
+#define S_TX 2          //Tx para bluetooth.
+#define S_RX 3          //Rx para bluetooth.
 
 // Inicializa o display no endereco 0x3f
 LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+//Inicializa a interface serial para bluetooth
 SoftwareSerial bluetooth(S_RX, S_TX);
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
@@ -44,6 +47,7 @@ float v1, v2, v3, v4;                                 //Velocidades médias dura
 float distancia = 210.0;
 int angulo;                                           //Angulo de inclinação.
 MPU6050 mpu;                                          //Instancia da classe usada na leitura do acelerometro/giroscopio.
+File myFile;                                          //Instancia da classe usada na escrita/leitura do cartão micro SD.
 
 /*****************************************************/
 //Função que retorna o angulo de inclinação
@@ -62,11 +66,13 @@ int getAngleMPU() {
   return value;
 }
 
+//Apaga todo display e escreve uma mensagem começando pela posição (i,j)
 void LCD_NovaMensagem(String str, int i = 0, int j = 0) {
   lcd.clear();
   lcd.setCursor(i, j);
   lcd.print(str);
 }
+//Escreve uma mensagem começando pela posição (i,j)
 void LCD_Mensagem(String str, int i = 0, int j = 0) {
   lcd.setCursor(i, j);
   lcd.print(str);
@@ -80,17 +86,27 @@ void setup() {
   pinMode (SENSOR3, INPUT);
   pinMode (SENSOR4, INPUT);
   pinMode (SENSOR5, INPUT);
-  pinMode(BOTAO, INPUT_PULLUP);
-  lcd.begin (16, 2);
-  lcd.setBacklight(HIGH);
+  pinMode(BOTAO, INPUT_PULLUP);//Pullup interno despensa resistor externo.
   Serial.begin (115200);//Comunicação serial configurada.
-  bluetooth.begin(9600);//Porta para bluetooth
-  LCD_NovaMensagem("MPU6050 ...");
+  bluetooth.begin(9600);//Porta para bluetooth.
+  lcd.begin (16, 2);    //Especifica tamalho do display.
+  lcd.setBacklight(HIGH);//Acende backlight.
+
+  LCD_NovaMensagem(F("MPU6050 ..."));
   //Tentativa de conexão com modulo MPU6050.
   while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
-    LCD_NovaMensagem("MPU disconectado");
+    LCD_NovaMensagem(F("MPU disconectado"));
     delay(500);
+    return;
+  }
+  //Verificação do modulo SD card(Pino 4 é usado).
+  if (SD.begin(4))
+  {
+    LCD_NovaMensagem(F("SD pronto."));
+  } else
+  {
+    LCD_NovaMensagem(F("Falha do SD"));
     return;
   }
 }
@@ -99,15 +115,17 @@ void setup() {
 // Laco principal do programa
 void loop() {
   delay(2000); // aguarda dois segundos
-  Serial.println("[START]");
+  //Ultima mensagem enviada a serial antes dos valores colhidos do experimento.
+  Serial.println(F("[START]"));
+  //Mensagem padrão no lcd.
   while (digitalRead(SENSOR5) == HIGH) { //Usando ultimo sensor como chave de escolha do angulo
-    LCD_NovaMensagem("Plano inclinado");
-    LCD_Mensagem("Angulo: ", 0, 1); //0->primeira coluna; 1->segunda linha
+    LCD_NovaMensagem(F("Plano inclinado"));
+    LCD_Mensagem(F("Angulo: "), 0, 1); //0->primeira coluna; 1->segunda linha
     LCD_Mensagem(String(getAngleMPU()), 8, 1); //8->nona coluna; 1->segunda linha
     delay(250);
   }
-  LCD_NovaMensagem("Plano inclinado");
-  LCD_Mensagem("Pronto P/ uso", 0, 1);
+  LCD_NovaMensagem(F("Plano inclinado"));
+  LCD_Mensagem(F("Pronto P/ uso"), 0, 1);
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH); //Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
@@ -132,7 +150,9 @@ void loop() {
   while (digitalRead(SENSOR5) == HIGH);
   while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
+
   //Após a leitura de todos os sensores, calcula os tempos e velocidades.
+  LCD_NovaMensagem(F("Dados coletados!"));
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
   T2 = (t2 - t0) ;
@@ -148,60 +168,93 @@ void loop() {
   //Leitura do angulo
   angulo = getAngleMPU();
 
-  bluetooth.print("Tempo1|");
+  //Dados para graficos em python
+  Serial.println(T1);
+  Serial.println(T2);
+  Serial.println(T3);
+  Serial.println(T4);
+  Serial.println(angulo);
+
+  //Dados enviados por bluetooth
+  bluetooth.print(F("Tempo1|"));
   bluetooth.print(T1);
   delay(1000);
-  bluetooth.print("Tempo2|");
+  bluetooth.print(F("Tempo2|"));
   bluetooth.print(T2);
   delay(1000);
-  bluetooth.print("Tempo3|");
+  bluetooth.print(F("Tempo3|"));
   bluetooth.print(T3);
   delay(1000);
-  bluetooth.print("Tempo4|");
+  bluetooth.print(F("Tempo4|"));
   bluetooth.print(T4);
   delay(1000);
-  //         Serial.print("v1: ");
-  //         Serial.print(v1, 6);
-  //         Serial.print("v2: ");
-  //         Serial.print(v2, 6);
-  //         Serial.print("v3: ");
-  //         Serial.print(v3, 6);
-  //         Serial.print("v4: ");
-  //         Serial.print(v4, 6);
-  Serial.println("Experimento finalizado....");
-  Serial.println("Reset o Arduino...");
+  bluetooth.print(F("angulo|"));
+  bluetooth.print(angulo);
+  delay(1000);
+
+  //Escrita no SD card
+  myFile = SD.open("test.txt", FILE_WRITE);
+  if (myFile) {
+    myFile.println(F("********Tempos(ms)******"));
+    myFile.print(F("T1: "));
+    myFile.println(T1);
+    myFile.print(F("T2: "));
+    myFile.println(T2);
+    myFile.print(F("T3: "));
+    myFile.println(T3);
+    myFile.print(F("T4: "));
+    myFile.println(T4);
+    myFile.println(F("******Velocidades(m/s)*****"));
+    myFile.print(F("v1: "));
+    myFile.println(v1);
+    myFile.print(F("v2: "));
+    myFile.println(v2);
+    myFile.print(F("v3: "));
+    myFile.println(v3);
+    myFile.print(F("v4: "));
+    myFile.println(v4);
+    myFile.println(F("************************"));
+    myFile.close();
+  }
+
+  Serial.println(F("Experimento finalizado...."));
+  Serial.println(F("Reset o Arduino..."));
   while (1) { // loop infinito. reset o arduino para um novo experimento.
-    //while (digitalRead(BOTAO) == HIGH);//Substituir um push button no futuro
-    LCD_NovaMensagem("Tempo1: ");
+    //Dados são mostrados no display, necessário pressionar botão para mostrar todos os dados
+    LCD_NovaMensagem(F("Tempo1: "));
     LCD_Mensagem(String(T1), 8, 0);
-    LCD_Mensagem("Tempo2: ", 0, 1);
+    LCD_Mensagem(F("Tempo2: "), 0, 1);
     LCD_Mensagem(String(T2) , 8, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Tempo3: ");
+    while (digitalRead(BOTAO) == LOW);
+    LCD_NovaMensagem(F("Tempo3: "));
     LCD_Mensagem(String(T3), 8, 0);
-    LCD_Mensagem("Tempo4: ", 0, 1);
+    LCD_Mensagem(F("Tempo4: "), 0, 1);
     LCD_Mensagem(String(T4) , 8, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Vel1: ");
+    while (digitalRead(BOTAO) == LOW);
+    LCD_NovaMensagem(F("Vel1: "));
     LCD_Mensagem(String(T1), 6, 0);
-    LCD_Mensagem("Vel2: ", 0, 1);
+    LCD_Mensagem(F("Vel2: "), 0, 1);
     LCD_Mensagem(String(T2) , 6, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Vel3: ");
+    while (digitalRead(BOTAO) == LOW);
+    LCD_NovaMensagem(F("Vel3: "));
     LCD_Mensagem(String(T3), 6, 0);
-    LCD_Mensagem("Vel4: ", 0, 1);
+    LCD_Mensagem(F("Vel4: "), 0, 1);
     LCD_Mensagem(String(T4), 6, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Angulo: ");
-    LCD_Mensagem(String(angulo), 8, 0);
-    LCD_Mensagem("AG: ", 0, 1);
-    LCD_Mensagem("????", 4, 1);
-    delay(2000);
+    LCD_NovaMensagem(F("Angulo: "));
+    LCD_Mensagem(F("????"), 8, 0);
+    LCD_Mensagem(F("AG: "), 0, 1);
+    LCD_Mensagem(F("????"), 4, 1);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
   }
 }
 
