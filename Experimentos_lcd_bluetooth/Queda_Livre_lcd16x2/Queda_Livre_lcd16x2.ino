@@ -23,12 +23,12 @@
 #include <LiquidCrystal_I2C.h>    //Biblioteca para o modulo LCD-i2c.
 #include <SoftwareSerial.h>
 
-#define SENSOR1 A0
-#define SENSOR2 A1
-#define SENSOR3 A2
-#define SENSOR4 A3
-#define SENSOR5 A4
-#define BOTAO 7
+#define SENSOR1 5
+#define SENSOR2 6
+#define SENSOR3 7
+#define SENSOR4 8
+#define SENSOR5 9
+#define BOTAO 4
 #define S_TX 2
 #define S_RX 3
 
@@ -40,6 +40,18 @@ float distancia = 210.0;                              //Distancia entre sensores
 // Inicializa o display no endereco 0x3f
 LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 SoftwareSerial bluetooth(S_RX, S_TX);
+
+void LCD_NovaMensagem(String str, int i = 0, int j = 0) {
+  lcd.clear();
+  lcd.setCursor(i, j);
+  lcd.print(str);
+}
+
+void LCD_Mensagem(String str, int i = 0, int j = 0) {
+  lcd.setCursor(i, j);
+  lcd.print(str);
+}
+
 void setup()
 {
   lcd.begin (16, 2);
@@ -84,7 +96,8 @@ void loop()
   while (digitalRead(SENSOR5) == HIGH);
   while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
-
+  
+  LCD_NovaMensagem("Dados coletados!");
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
   T2 = (t2 - t0) ;
@@ -97,6 +110,11 @@ void loop()
   v3 = 3 * distancia / T3;
   v4 = 4 * distancia / T4;
 
+  //Dados para graficos em python
+  Serial.println(T1);
+  Serial.println(T2);
+  Serial.println(T3);
+  Serial.println(T4);
   //Dados enviados por bluetooth
   bluetooth.print("Tempo1|");
   bluetooth.print(T1);
@@ -125,31 +143,35 @@ void loop()
     LCD_Mensagem(String(T1), 8, 0);
     LCD_Mensagem("Tempo2: ", 0, 1);
     LCD_Mensagem(String(T2) , 8, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem("Tempo3: ");
     LCD_Mensagem(String(T3), 8, 0);
     LCD_Mensagem("Tempo4: ", 0, 1);
     LCD_Mensagem(String(T4) , 8, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem("Vel1: ");
     LCD_Mensagem(String(T1), 6, 0);
     LCD_Mensagem("Vel2: ", 0, 1);
     LCD_Mensagem(String(T2) , 6, 1);
-    delay(2000);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem("Vel3: ");
     LCD_Mensagem(String(T3), 6, 0);
     LCD_Mensagem("Vel4: ", 0, 1);
     LCD_Mensagem(String(T4), 6, 1);
-    delay(2000);
+    delay(200);
+//    while (digitalRead(BOTAO) == HIGH);
+//    LCD_NovaMensagem("Angulo: ");
+//    LCD_Mensagem("????", 8, 0);
+//    LCD_Mensagem("AG: ", 0, 1);
+//    LCD_Mensagem("????", 4, 1);
+//    delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Angulo: ");
-    LCD_Mensagem(String(angulo), 8, 0);
-    LCD_Mensagem("AG: ", 0, 1);
-    LCD_Mensagem("????", 4, 1);
-    delay(2000);
-    while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
   }
 }

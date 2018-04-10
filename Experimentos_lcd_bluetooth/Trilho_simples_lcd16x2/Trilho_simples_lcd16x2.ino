@@ -9,7 +9,7 @@
   REPOSITÓRIO: GOOGLE DRIVE\UAB - Arduino\Código Arduino
 
   DESCRIÇÃO:
-  Código para coleta de dados do instrumento TRILHO HORIZONTAL ou QUEDA LIVRE.
+  Código para coleta de dados do instrumento TRILHO HORIZONTAL.
   Possui cinco sensores de obstáculo para detectar um objeto
   que se desloque em um trilho (perfil em U) ou em queda livre.
   Conectorização em placa Arduino Uno R3.
