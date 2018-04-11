@@ -95,7 +95,6 @@ void setup() {
   {
     LCD_NovaMensagem("MPU disconectado");
     delay(500);
-    return;
   }
 }
 
@@ -106,7 +105,7 @@ void loop() {
   //Ultima mensagem enviada a serial antes dos valores colhidos do experimento.
   Serial.println("[START]");
   //Mensagem padrão no lcd.
-  while (digitalRead(SENSOR5) == HIGH) { //Usando ultimo sensor como chave de escolha do angulo
+  while (digitalRead(BOTAO) == HIGH) { //Usando ultimo sensor como chave de escolha do angulo
     LCD_NovaMensagem("Plano inclinado");
     LCD_Mensagem("Angulo: ", 0, 1); //0->primeira coluna; 1->segunda linha
     LCD_Mensagem(String(getAngleMPU()), 8, 1); //8->nona coluna; 1->segunda linha
@@ -200,16 +199,16 @@ void loop() {
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem("Vel1: ");
-    LCD_Mensagem(String(T1), 6, 0);
+    LCD_Mensagem(String(v1), 6, 0);
     LCD_Mensagem("Vel2: ", 0, 1);
-    LCD_Mensagem(String(T2) , 6, 1);
+    LCD_Mensagem(String(v2) , 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem("Vel3: ");
-    LCD_Mensagem(String(T3), 6, 0);
+    LCD_Mensagem(String(v3), 6, 0);
     LCD_Mensagem("Vel4: ", 0, 1);
-    LCD_Mensagem(String(T4), 6, 1);
+    LCD_Mensagem(String(v4), 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     LCD_NovaMensagem("Angulo: ");
