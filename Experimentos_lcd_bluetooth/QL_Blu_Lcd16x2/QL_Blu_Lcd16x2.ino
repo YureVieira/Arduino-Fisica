@@ -23,12 +23,12 @@
 #include <LiquidCrystal_I2C.h>    //Biblioteca para o modulo LCD-i2c.
 #include <SoftwareSerial.h>       //Biblioteca usada com bluetooth.
 
-#define SENSOR1 8       //Primeiro sensor.
-#define SENSOR2 9
-#define SENSOR3 10
-#define SENSOR4 11
-#define SENSOR5 12      //Ultimo sensor.
-#define BOTAO 7         //Botão para funções.
+#define SENSOR1 5       //Primeiro sensor.
+#define SENSOR2 6
+#define SENSOR3 7
+#define SENSOR4 8
+#define SENSOR5 9       //Ultimo sensor.
+#define BOTAO A0        //Botão para funções.
 #define S_TX 2          //Tx para bluetooth.
 #define S_RX 3          //Rx para bluetooth.
 
@@ -72,10 +72,10 @@ void loop()
 {
   delay(2000); // aguarda dois segundos.
   //Ultima mensagem enviada a serial antes dos valores colhidos do experimento.
-  Serial.println("[START]");
+  Serial.println(F("[START]"));
   //Mensagem padrão no lcd.
-  LCD_NovaMensagem("Queda Livre");
-  LCD_Mensagem("Aguardando valores!", 0, 1);
+  LCD_NovaMensagem(F("Trilho Honz"));
+  LCD_Mensagem(F("Aguardando valores!"), 0, 1);
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
@@ -101,7 +101,7 @@ void loop()
   while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
 
-  LCD_NovaMensagem("Dados coletados!");
+  LCD_NovaMensagem(F("Dados coletados!"));
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
   T2 = (t2 - t0) ;
@@ -121,55 +121,56 @@ void loop()
   Serial.println(T4);
 
   //Dados enviados por bluetooth
-  bluetooth.print("Tempo1|");
+  bluetooth.print(F("Tempo1|"));
   bluetooth.print(T1);
   delay(1000);
-  bluetooth.print("Tempo2|");
+  bluetooth.print(F("Tempo2|"));
   bluetooth.print(T2);
   delay(1000);
-  bluetooth.print("Tempo3|");
+  bluetooth.print(F("Tempo3|"));
   bluetooth.print(T3);
   delay(1000);
-  bluetooth.print("Tempo4|");
+  bluetooth.print(F("Tempo4|"));
   bluetooth.print(T4);
   delay(1000);
 
-  Serial.println("Experimento finalizado....");
-  Serial.println("Reset o Arduino...");
+  Serial.println(F("Experimento finalizado...."));
+  Serial.println(F("Reset o Arduino..."));
   while (1) { // loop infinito. reset o arduino para um novo experimento.
     //Dados são mostrados no display, necessário pressionar botão para mostrar todos os dados
-    LCD_NovaMensagem("Tempo1: ");
+    LCD_NovaMensagem(F("Tempo1: "));
     LCD_Mensagem(String(T1), 8, 0);
-    LCD_Mensagem("Tempo2: ", 0, 1);
+    LCD_Mensagem(F("Tempo2: "), 0, 1);
     LCD_Mensagem(String(T2) , 8, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Tempo3: ");
+    LCD_NovaMensagem(F("Tempo3: "));
     LCD_Mensagem(String(T3), 8, 0);
-    LCD_Mensagem("Tempo4: ", 0, 1);
+    LCD_Mensagem(F("Tempo4: "), 0, 1);
     LCD_Mensagem(String(T4) , 8, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Vel1: ");
+    LCD_NovaMensagem(F("Vel1: "));
     LCD_Mensagem(String(T1), 6, 0);
-    LCD_Mensagem("Vel2: ", 0, 1);
+    LCD_Mensagem(F("Vel2: "), 0, 1);
     LCD_Mensagem(String(T2) , 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Vel3: ");
+    LCD_NovaMensagem(F("Vel3: "));
     LCD_Mensagem(String(T3), 6, 0);
-    LCD_Mensagem("Vel4: ", 0, 1);
+    LCD_Mensagem(F("Vel4: "), 0, 1);
     LCD_Mensagem(String(T4), 6, 1);
     delay(200);
-    //    while (digitalRead(BOTAO) == HIGH);
-    //    LCD_NovaMensagem("Angulo: ");
-    //    LCD_Mensagem("????", 8, 0);
-    //    LCD_Mensagem("AG: ", 0, 1);
-    //    LCD_Mensagem("????", 4, 1);
-    //    delay(200);
+    while (digitalRead(BOTAO) == HIGH);
+    while (digitalRead(BOTAO) == LOW);
+    LCD_NovaMensagem(F("Angulo: "));
+    LCD_Mensagem(F("????", 8, 0);
+    LCD_Mensagem(F("AG: "), 0, 1);
+    LCD_Mensagem(F("????", 4, 1);
+    delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
   }

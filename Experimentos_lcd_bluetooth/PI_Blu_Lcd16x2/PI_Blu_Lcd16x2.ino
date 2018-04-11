@@ -25,12 +25,12 @@
 #include <LiquidCrystal_I2C.h>    //Biblioteca para o modulo LCD-i2c.
 #include <SoftwareSerial.h>       //Biblioteca usada com bluetooth
 
-#define SENSOR1 4       //Primeiro sensor.
-#define SENSOR2 5
-#define SENSOR3 6
-#define SENSOR4 7
-#define SENSOR5 8       //Ultimo sensor.
-#define BOTAO 7         //Botão para funções.
+#define SENSOR1 5       //Primeiro sensor.
+#define SENSOR2 6
+#define SENSOR3 7
+#define SENSOR4 8
+#define SENSOR5 9       //Ultimo sensor.
+#define BOTAO A0        //Botão para funções.
 #define S_TX 2          //Tx para bluetooth.
 #define S_RX 3          //Rx para bluetooth.
 
@@ -138,6 +138,9 @@ void loop() {
   while (digitalRead(SENSOR5) == HIGH);
   while (digitalRead(SENSOR5) == LOW);
   t4 = millis(); // captura o tempo corrente em t4
+
+  LCD_NovaMensagem(F("Dados coletados!"));
+  
   //Após a leitura de todos os sensores, calcula os tempos e velocidades.
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
