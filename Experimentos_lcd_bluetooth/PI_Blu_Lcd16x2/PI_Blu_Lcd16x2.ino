@@ -212,7 +212,7 @@ void loop() {
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     LCD_NovaMensagem(F("Angulo: "));
-    LCD_Mensagem(angulo, 8, 0);
+    LCD_Mensagem(String(angulo), 8, 0);
     LCD_Mensagem(F("AG: "), 0, 1);
     LCD_Mensagem(F("????"), 4, 1);
     delay(200);
