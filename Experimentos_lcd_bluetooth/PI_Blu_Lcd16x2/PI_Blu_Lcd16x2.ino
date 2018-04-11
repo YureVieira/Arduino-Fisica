@@ -89,11 +89,11 @@ void setup() {
   lcd.begin (16, 2);    //Especifica tamalho do display.
   lcd.setBacklight(HIGH);//Acende backlight.
 
-  LCD_NovaMensagem("MPU6050 ...");
+  LCD_NovaMensagem(F("MPU6050 ..."));
   //Tentativa de conexão com modulo MPU6050.
   while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
-    LCD_NovaMensagem("MPU disconectado");
+    LCD_NovaMensagem(F("MPU disconectado"));
     delay(500);
   }
 }
@@ -103,16 +103,16 @@ void setup() {
 void loop() {
   delay(2000); // aguarda dois segundos
   //Ultima mensagem enviada a serial antes dos valores colhidos do experimento.
-  Serial.println("[START]");
+  Serial.println(F("[START]"));
   //Mensagem padrão no lcd.
   while (digitalRead(BOTAO) == HIGH) { //Usando ultimo sensor como chave de escolha do angulo
-    LCD_NovaMensagem("Plano inclinado");
-    LCD_Mensagem("Angulo: ", 0, 1); //0->primeira coluna; 1->segunda linha
+    LCD_NovaMensagem(F("Plano inclinado"));
+    LCD_Mensagem(F("Angulo: "), 0, 1); //0->primeira coluna; 1->segunda linha
     LCD_Mensagem(String(getAngleMPU()), 8, 1); //8->nona coluna; 1->segunda linha
     delay(250);
   }
-  LCD_NovaMensagem("Plano inclinado");
-  LCD_Mensagem("Pronto P/ uso", 0, 1);
+  LCD_NovaMensagem(F("Plano inclinado"));
+  LCD_Mensagem(F("Pronto P/ uso"), 0, 1);
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH); //Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW);//Momento que o corpo sai do raio de cobertura do sensor
@@ -164,57 +164,57 @@ void loop() {
   Serial.println(angulo);
 
   //Dados enviados por bluetooth
-  bluetooth.print("Tempo1|");
+  bluetooth.print(F("Tempo1|"));
   bluetooth.print(T1);
   delay(1000);
-  bluetooth.print("Tempo2|");
+  bluetooth.print(F("Tempo2|"));
   bluetooth.print(T2);
   delay(1000);
-  bluetooth.print("Tempo3|");
+  bluetooth.print(F("Tempo3|"));
   bluetooth.print(T3);
   delay(1000);
-  bluetooth.print("Tempo4|");
+  bluetooth.print(F("Tempo4|"));
   bluetooth.print(T4);
   delay(1000);
-  bluetooth.print("angulo|");
+  bluetooth.print(F("angulo|"));
   bluetooth.print(angulo);
   delay(1000);
 
-  Serial.println("Experimento finalizado....");
-  Serial.println("Reset o Arduino...");
+  Serial.println(F("Experimento finalizado...."));
+  Serial.println(F("Reset o Arduino..."));
   while (1) { // loop infinito. reset o arduino para um novo experimento.
     //Dados são mostrados no display, necessário pressionar botão para mostrar todos os dados
-    LCD_NovaMensagem("Tempo1: ");
+    LCD_NovaMensagem(F("Tempo1: "));
     LCD_Mensagem(String(T1), 8, 0);
-    LCD_Mensagem("Tempo2: ", 0, 1);
+    LCD_Mensagem(F("Tempo2: "), 0, 1);
     LCD_Mensagem(String(T2) , 8, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Tempo3: ");
+    LCD_NovaMensagem(F("Tempo3: "));
     LCD_Mensagem(String(T3), 8, 0);
-    LCD_Mensagem("Tempo4: ", 0, 1);
+    LCD_Mensagem(F("Tempo4: "), 0, 1);
     LCD_Mensagem(String(T4) , 8, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Vel1: ");
+    LCD_NovaMensagem(F("Vel1: "));
     LCD_Mensagem(String(v1), 6, 0);
-    LCD_Mensagem("Vel2: ", 0, 1);
+    LCD_Mensagem(F("Vel2: "), 0, 1);
     LCD_Mensagem(String(v2) , 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
-    LCD_NovaMensagem("Vel3: ");
+    LCD_NovaMensagem(F("Vel3: "));
     LCD_Mensagem(String(v3), 6, 0);
-    LCD_Mensagem("Vel4: ", 0, 1);
+    LCD_Mensagem(F("Vel4: "), 0, 1);
     LCD_Mensagem(String(v4), 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
-    LCD_NovaMensagem("Angulo: ");
-    LCD_Mensagem("????", 8, 0);
-    LCD_Mensagem("AG: ", 0, 1);
-    LCD_Mensagem("????", 4, 1);
+    LCD_NovaMensagem(F("Angulo: "));
+    LCD_Mensagem(angulo, 8, 0);
+    LCD_Mensagem(F("AG: "), 0, 1);
+    LCD_Mensagem(F("????"), 4, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
