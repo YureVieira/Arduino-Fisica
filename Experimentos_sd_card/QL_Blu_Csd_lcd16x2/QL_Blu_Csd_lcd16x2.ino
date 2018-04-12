@@ -175,7 +175,7 @@ void loop()
   Serial.println(F("Experimento finalizado...."));
   Serial.println(F("Reset o Arduino..."));
   while (1) { // loop infinito. reset o arduino para um novo experimento.
-    //Dados são mostrados no display, necessário pressionar botão para mostrar todos os dados
+        //Dados são mostrados no display, necessário pressionar botão para mostrar todos os dados
     LCD_NovaMensagem(F("Tempo1: "));
     LCD_Mensagem(String(T1), 8, 0);
     LCD_Mensagem(F("Tempo2: "), 0, 1);
@@ -191,23 +191,24 @@ void loop()
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem(F("Vel1: "));
-    LCD_Mensagem(String(T1), 6, 0);
+    LCD_Mensagem(String(v1,5), 6, 0);
     LCD_Mensagem(F("Vel2: "), 0, 1);
-    LCD_Mensagem(String(T2) , 6, 1);
+    LCD_Mensagem(String(v2,5) , 6, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem(F("Vel3: "));
-    LCD_Mensagem(String(T3), 6, 0);
+    LCD_Mensagem(String(v3,5), 6, 0);
     LCD_Mensagem(F("Vel4: "), 0, 1);
-    LCD_Mensagem(String(T4), 6, 1);
+    LCD_Mensagem(String(v4,5), 6, 1);
     delay(200);
-    //    while (digitalRead(BOTAO) == HIGH);
-    //    LCD_NovaMensagem(F("Angulo: "));
-    //    LCD_Mensagem(F("????", 8, 0);
-    //    LCD_Mensagem(F("AG: ", 0, 1);
-    //    LCD_Mensagem(F("????", 4, 1);
-    //    delay(200);
+    //while (digitalRead(BOTAO) == HIGH);
+    //while (digitalRead(BOTAO) == LOW);
+    //LCD_NovaMensagem(F("Angulo: "));
+    //LCD_Mensagem(F("????"), 8, 0);
+    //LCD_Mensagem(F("AG: "), 0, 1);
+    //LCD_Mensagem(F("????"), 4, 1);
+    //delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
   }
