@@ -25,11 +25,11 @@
 // A linha abaixo define as ligacoes e deve ser ajustada conforme o display utilizado.
 U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
 
-#define SENSOR1 5       //Primeiro sensor.
-#define SENSOR2 6
-#define SENSOR3 7
-#define SENSOR4 8
-#define SENSOR5 9       //Ultimo sensor.
+#define SENSOR1 8       //Primeiro sensor.
+#define SENSOR2 9
+#define SENSOR3 10
+#define SENSOR4 11
+#define SENSOR5 12       //Ultimo sensor.
 //#define BOTAO A0        //Botão para funções.
 #define S_TX 2          //Tx para bluetooth.
 #define S_RX 3          //Rx para bluetooth.
@@ -72,10 +72,10 @@ void LCD_printValues() {
   u8g.drawStr( 0, 32, msg3);
   u8g.drawStr( 0, 42, msg4);
 
-  value1 = String(v1);
-  value2 = String(v2);
-  value3 = String(v3);
-  value4 = String(v4);
+  value1 = String(v1,5);
+  value2 = String(v2,5);
+  value3 = String(v3,5);
+  value4 = String(v4,5);
 
   sprintf(msg1, "v1=%s", value1.c_str());
   sprintf(msg2, "v2=%s", value2.c_str());
