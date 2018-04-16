@@ -4,8 +4,8 @@
   PROJETO: Física com Arduino
   ANALISTA: Antonio de Lisboa Coutinho Junior
   DESENVOLVEDOR: Yure Vieira Sampaio Albuquerque
-  DATA: 10/04/2018
-  VERSÃO: 4.0
+  DATA: 16/04/2018
+  VERSÃO: 5.0
   REPOSITÓRIO: GOOGLE DRIVE\UAB - Arduino\Código Arduino
 
   DESCRIÇÃO:
@@ -13,6 +13,8 @@
   Possui cinco sensores de obstáculo para detectar um objeto
   que se desloque em queda livre.
   Conectorização em placa Arduino Uno R3.
+  Um acionamento manual via botão ativa um rele que,
+  controla uma bobina que segura o corpo de aço antes do ensaio.
   Serão tomados 4 tempos.
   Calculada a velocidade do objeto.
   Transmissão via módulo Serial/Bluetooth.
@@ -37,7 +39,7 @@ unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para 
 float T1, T2, T3, T4;                                 //Tempos entre sensores.
 float v1, v2, v3, v4;                                 //Velocidades médias durante a passagem por cada cada sensor.
 float distancia = 210.0;                              //Distancia entre sensores.
-float dist[] = {230,420,625,820}; //Distancias para o nosso experimento, o seu pode ser diferente
+float dist1 = 230,dist2 = 420,dist3 = 625, dist4 = 820; //Distancias entre cada sensor e a origem em nosso experimento, o seu pode ser diferente.
 
 // Inicializa o display no endereco 0x3f.
 LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
@@ -114,10 +116,10 @@ void loop()
   T4 = (t4 - t0) ;
 
   //Calculo da Velocidade.
-  v1 = dist[0] / T1;
-  v2 = dist[1] / T2;
-  v3 = dist[2] / T3;
-  v4 = dist[3] / T4;
+  v1 = dist1 / T1;
+  v2 = dist2 / T2;
+  v3 = dist3 / T3;
+  v4 = dist4 / T4;
 
   //Dados para graficos em python
   Serial.println(T1);
