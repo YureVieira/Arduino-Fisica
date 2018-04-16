@@ -37,6 +37,7 @@ unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para 
 float T1, T2, T3, T4;                                 //Tempos entre sensores.
 float v1, v2, v3, v4;                                 //Velocidades médias durante a passagem por cada cada sensor.
 float distancia = 210.0;                              //Distancia entre sensores.
+float dist[] = {230,420,625,820}; //Distancias para o nosso experimento, o seu pode ser diferente
 
 // Inicializa o display no endereco 0x3f.
 LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
@@ -62,7 +63,7 @@ void setup()
   pinMode(SENSOR3, INPUT);
   pinMode(SENSOR4, INPUT);
   pinMode(SENSOR5, INPUT);
-  pinMode(BOTAO, INPUT);//Pullup interno despensa resistor externo.
+  pinMode(BOTAO, INPUT_PULLUP);//Pullup interno despensa resistor externo.
   pinMode(RELE,OUTPUT);
   Serial.begin (115200);//Comunicação serial configurada.
   bluetooth.begin(9600);//Porta para bluetooth.
@@ -113,10 +114,10 @@ void loop()
   T4 = (t4 - t0) ;
 
   //Calculo da Velocidade.
-  v1 = distancia / T1;
-  v2 = 2 * distancia / T2;
-  v3 = 3 * distancia / T3;
-  v4 = 4 * distancia / T4;
+  v1 = dist[0] / T1;
+  v2 = dist[1] / T2;
+  v3 = dist[2] / T3;
+  v4 = dist[3] / T4;
 
   //Dados para graficos em python
   Serial.println(T1);
