@@ -1,4 +1,3 @@
-
 /*--------------------------------------------------------------------------
   UNIVERSIDADE FEDERAL DO CEARÁ - UFC
   LABORATÓRIO DE MÍDIAS EDUCACIONAIS - LME
@@ -207,13 +206,13 @@ void loop()
       LCD_Mensagem(String(v3, 5), 6, 0);
       LCD_Mensagem(F("Vel4: "), 0, 1);
       LCD_Mensagem(String(v4, 5), 6, 1);
-      delay(200);
-      while (digitalRead(BOTAO) == HIGH);
-      while (digitalRead(BOTAO) == LOW);
-      LCD_NovaMensagem(F("Angulo: "));
-      LCD_Mensagem(F("????"), 8, 0);
-      LCD_Mensagem(F("AG: "), 0, 1);
-      LCD_Mensagem(F("????"), 4, 1);
+//      delay(200);
+//      while (digitalRead(BOTAO) == HIGH);
+//      while (digitalRead(BOTAO) == LOW);
+//      LCD_NovaMensagem(F("Angulo: "));
+//      LCD_Mensagem(F("????"), 8, 0);
+//      LCD_Mensagem(F("AG: "), 0, 1);
+//      LCD_Mensagem(F("????"), 4, 1);
       delay(200);
       while (digitalRead(BOTAO) == HIGH);
       while (digitalRead(BOTAO) == LOW);

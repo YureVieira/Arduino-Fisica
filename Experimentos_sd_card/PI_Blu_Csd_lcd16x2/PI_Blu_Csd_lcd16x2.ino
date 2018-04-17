@@ -188,7 +188,7 @@ void loop() {
   bluetooth.print(F("Tempo4|"));
   bluetooth.print(T4);
   delay(1000);
-  bluetooth.print(F("angulo|"));
+  bluetooth.print(F("Angulo|"));
   bluetooth.print(angulo);
   delay(1000);
 
@@ -251,8 +251,8 @@ void loop() {
     while (digitalRead(BOTAO) == LOW);
     LCD_NovaMensagem(F("Angulo: "));
     LCD_Mensagem(F("????"), 8, 0);
-    LCD_Mensagem(F("AG: "), 0, 1);
-    LCD_Mensagem(F("????"), 4, 1);
+    //LCD_Mensagem(F("AG: "), 0, 1);
+    //LCD_Mensagem(F("????"), 4, 1);
     delay(200);
     while (digitalRead(BOTAO) == HIGH);
     while (digitalRead(BOTAO) == LOW);
