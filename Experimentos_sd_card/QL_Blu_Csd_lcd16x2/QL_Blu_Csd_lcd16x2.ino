@@ -27,6 +27,7 @@
 #include <LiquidCrystal_I2C.h>    //Biblioteca para o modulo LCD-i2c.
 #include <SoftwareSerial.h>       //Biblioteca usada com bluetooth.
 
+#define DEBUG
 #define SENSOR1 5       //Primeiro sensor.
 #define SENSOR2 6
 #define SENSOR3 7
@@ -51,12 +52,20 @@ SoftwareSerial bluetooth(S_RX, S_TX);
 
 //Apaga todo display e escreve uma mensagem começando pela posição (i,j).
 void LCD_NovaMensagem(String str, int i = 0, int j = 0) {
+  #ifdef DEBUG
+  Serial.print("[DEBUG]:");
+  Serial.println(str);
+  #endif
   lcd.clear();
   lcd.setCursor(i, j);
   lcd.print(str);
 }
 //Escreve uma mensagem começando pela posição (i,j).
 void LCD_Mensagem(String str, int i = 0, int j = 0) {
+  #ifdef DEBUG
+  Serial.print("[DEBUG]:");
+  Serial.println(str);
+  #endif
   lcd.setCursor(i, j);
   lcd.print(str);
 }
