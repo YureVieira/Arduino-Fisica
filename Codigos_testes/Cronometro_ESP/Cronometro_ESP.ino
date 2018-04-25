@@ -14,43 +14,48 @@ void setup()
 {
   Serial.begin(115200);
   ESP.wdtDisable();//Desabilita o SW WDT. 
-  pinMode(SENSOR1, INPUT); //Botão.
-  pinMode(SENSOR2, INPUT);
-  pinMode(SENSOR3, INPUT);
-  pinMode(SENSOR4, INPUT);
-  pinMode(SENSOR5, INPUT);
+  pinMode(SENSOR1, INPUT_PULLUP); //Botão.
+  pinMode(SENSOR2, INPUT_PULLUP);
+  pinMode(SENSOR3, INPUT_PULLUP);
+  pinMode(SENSOR4, INPUT_PULLUP);
+  pinMode(SENSOR5, INPUT_PULLUP);
 }
 
 void loop()
 {
-  //Serial.print("Iniciando em 2s...");
+  Serial.println();
+  Serial.println("Iniciando em 2s...");
   delay(2000); // aguarda dois segundos
 
  //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH){ESP.wdtFeed();}//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR1) == LOW){ESP.wdtFeed();}//Momento que o corpo sai do raio de cobertura do sensor
   t0 = millis(); // captura o tempo corrente em t0
+  Serial.println("t0");
 
   // SENSOR2 -------------------------------------------
   while (digitalRead(SENSOR2) == HIGH){ESP.wdtFeed();}//Momento que o corpo entra no raio de cobertura do sensor
   while (digitalRead(SENSOR2) == LOW){ESP.wdtFeed();}//Momento que o corpo sai do raio de cobertura do sensor
   t1 = millis(); // captura o tempo corrente em t1
+  Serial.println("t1");
 
   //SENSOR3---------------------------------------------
   while (digitalRead(SENSOR3) == HIGH){ESP.wdtFeed();}
   while (digitalRead(SENSOR3) == LOW){ESP.wdtFeed();}
   t2 = millis(); // captura o tempo corrente em t2
+  Serial.println("t2");
 
   //SENSOR4---------------------------------------------
   while (digitalRead(SENSOR4) == HIGH){ESP.wdtFeed();}
   while (digitalRead(SENSOR4) == LOW){ESP.wdtFeed();}
   t3 = millis(); // captura o tempo corrente em t3
-
+  Serial.println("t3");
+  
   //SENSOR5---------------------------------------------
   while (digitalRead(SENSOR5) == HIGH){ESP.wdtFeed();}
   while (digitalRead(SENSOR5) == LOW){ESP.wdtFeed();}
   t4 = millis(); // captura o tempo corrente em t4
-
+  Serial.println("t4");
 
   // Calculo -------------------------------------------
   Serial.print("Tempo decorrido 2 (ms): ");
@@ -65,5 +70,6 @@ void loop()
 
   Serial.println("Experimento finalizado....");
   Serial.println("Reset o Arduino...");
-  while (1){ESP.wdtFeed();} // loop infinito. reset o arduino para um novo experimento.
+  long counter = millis();
+  while (millis() - counter < 5000){ESP.wdtFeed();} // loop de 5 segundos.
 }
