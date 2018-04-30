@@ -21,6 +21,13 @@ String tbox1 = "&entry.185500981=";
 String tbox2 = "&entry.1516217799=";
 String tbox3 = "&entry.68102006=";
 String tbox4 = "&entry.1394129725=";
+
+//String textFix = "GET /forms/d/e/1FAIpQLSfhyM3dkM8803uScqLVfhj-VPE91_uXsh-BP-USd6BkzNTffQ";
+//String tboxName = "&entry.138862650=Plano";
+//String tbox1 = "&entry.591744911=";
+//String tbox2 = "&entry.459293025=";
+//String tbox3 = "&entry.264571328=";
+//String tbox4 = "&entry.334619306=";
 //Essa String sera uma auxiliar contendo o link utilizado pelo GET, para nao precisar ficar re-escrevendo toda hora
 ///////////////////////////////////////////////////////////////////////////////////////////
 void setup()
