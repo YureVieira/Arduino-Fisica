@@ -19,15 +19,15 @@ void setup()
 void loop()
 {
   //valores de correção obtido impircamente
-  int offset = -91;
-  int factor = -1;
-  int value;
+  int16_t offset = -91;
+  int16_t factor = -1;
+  int16_t value;
   // Read normalized values 
   Vector normAccel = mpu.readNormalizeAccel();
 
   // Calculate Pitch & Roll
-  int pitch = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
-  int roll = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
+  int16_t pitch = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
+  int16_t roll = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
   value = factor * roll + offset;
   
   Serial.print(" angulo = ");
