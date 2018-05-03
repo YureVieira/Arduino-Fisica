@@ -75,6 +75,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef VECTOR_STRUCT_H
 #define VECTOR_STRUCT_H
+struct VectorInt
+{
+    int16_t XAxis;
+    int16_t YAxis;
+    int16_t ZAxis;
+};
 struct Vector
 {
     float XAxis;
@@ -223,15 +229,15 @@ class MPU6050
 	void setThreshold(uint8_t multiple = 1);
 	uint8_t getThreshold(void);
 
-	Vector readRawGyro(void);
+	VectorInt readRawGyro(void);
 	Vector readNormalizeGyro(void);
 
-	Vector readRawAccel(void);
+	VectorInt readRawAccel(void);
 	Vector readNormalizeAccel(void);
 	Vector readScaledAccel(void);
 
     private:
-	Vector ra, rg; // Raw vectors
+	VectorInt ra, rg; // Raw vectors
 	Vector na, ng; // Normalized vectors
 	Vector tg, dg; // Threshold and Delta for Gyro
 	Vector th;     // Threshold
