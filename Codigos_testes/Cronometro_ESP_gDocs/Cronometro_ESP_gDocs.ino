@@ -6,8 +6,8 @@
 #define SENSOR1 D1       //Primeiro sensor.
 #define SENSOR2 D2
 #define SENSOR3 D3
-#define SENSOR4 D4
-#define SENSOR5 D5       //Ultimo sensor.
+#define SENSOR4 D5
+#define SENSOR5 D6       //Ultimo sensor.
 
 unsigned long t0; // tempo inicial
 unsigned long t1; // tempo final no sensor2
@@ -16,7 +16,7 @@ unsigned long t3; // tempo final no sensor4
 unsigned long t4; // tempo final no sensor5
 WiFiClientSecure client; //Cria um cliente seguro (para ter acesso ao HTTPS)
 String textFix = "GET /forms/d/e/1FAIpQLSerRYzwgnRWs9HGAa1r-aNQeq2bSuvpuPfvBBn-csLt41tNCg/formResponse?ifq";
-String tboxName = "&entry.1256476473=Plano";
+String tboxName = "&entry.1256476473=Plano_Inclinado";
 String tbox1 = "&entry.185500981=";
 String tbox2 = "&entry.1516217799=";
 String tbox3 = "&entry.68102006=";
