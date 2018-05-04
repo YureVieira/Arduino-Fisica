@@ -6,9 +6,11 @@
 
 #define SENSOR1 D1       //Primeiro sensor.
 #define SENSOR2 D2
-#define SENSOR3 D3
-#define SENSOR4 D4
-#define SENSOR5 D5       //Ultimo sensor.
+#define SENSOR3 D5
+#define SENSOR4 D6
+#define SENSOR5 D7       //Ultimo sensor.
+#define SDA_PIN D4
+#define SCL_PIN D3
 
 unsigned long t0; // tempo inicial
 unsigned long t1; // tempo final no sensor2
@@ -17,12 +19,12 @@ unsigned long t3; // tempo final no sensor4
 unsigned long t4; // tempo final no sensor5
 
 int angulo;                                           //Angulo de inclinação.
-MPU6050 mpu;   
+MPU6050 mpu;
 
 WiFiClientSecure client; //Cria um cliente seguro (para ter acesso ao HTTPS)
 //Essa String sera uma auxiliar contendo o link utilizado pelo GET, para nao precisar ficar re-escrevendo toda hora
 String textFix = "GET /forms/d/e/1FAIpQLSdwNWQtjetH4hj_MkRDOeBXkV6ib8LLgmO8th9dk3t6ePcz_g/formResponse?ifq";
-String tboxName = "&entry.911139776=Plano";
+String tboxName = "&entry.911139776=Plano_Inclinado";
 String tbox1 = "&entry.1827900739=";
 String tbox2 = "&entry.1917433581=";
 String tbox3 = "&entry.246745679=";
@@ -33,7 +35,7 @@ String tbox5 = "&entry.1880225264=";
 //Função que retorna o angulo de inclinação
 int getAngleMPU() {
   //valores de correção obtido impiricamente
-  int offset = -90;
+  int offset = -91;
   int factor = 1;
   int value;
   // Leitura dos valores normalizados
@@ -49,6 +51,12 @@ int getAngleMPU() {
 void setup()
 {
   Serial.begin(115200);
+  Serial.println("Initialize MPU6050");
+  while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x68, SDA_PIN, SCL_PIN))
+  {
+    Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
+    delay(500);
+  }
   WiFiManager WFManager;
   //WFManager.resetSettings();
   if (!WFManager.autoConnect("ESP12E_AP_MODE", "12345678")) {
@@ -74,8 +82,11 @@ void loop()
 {
   Serial.println();
   Serial.println("Iniciando em 2s...");
-  delay(2000); // aguarda dois segundos
-
+  delay(2000);
+  Serial.print("angulo = ");
+  Serial.print(getAngleMPU());
+  Serial.println("°");
+  Serial.println("Sistema Pronto");
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH) {
     yield();//Efetua o feed do SW WDT.
@@ -147,6 +158,8 @@ void loop()
   Serial.println(t4 - t0);
   //Leitura do angulo
   angulo = getAngleMPU();
+  Serial.print("Angulo: ");
+  Serial.println(angulo);
 
   if (client.connect("docs.google.com", 443) == 1)//Tenta se conectar ao servidor do Google docs na porta 443 (HTTPS)
   {
