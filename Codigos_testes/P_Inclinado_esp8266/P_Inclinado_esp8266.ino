@@ -1,3 +1,4 @@
+#include <MPU6050.h>
 #include <ESP8266WiFi.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
@@ -14,7 +15,12 @@ unsigned long t1; // tempo final no sensor2
 unsigned long t2; // tempo final no sensor3
 unsigned long t3; // tempo final no sensor4
 unsigned long t4; // tempo final no sensor5
+
+int angulo;                                           //Angulo de inclinação.
+MPU6050 mpu;   
+
 WiFiClientSecure client; //Cria um cliente seguro (para ter acesso ao HTTPS)
+//Essa String sera uma auxiliar contendo o link utilizado pelo GET, para nao precisar ficar re-escrevendo toda hora
 String textFix = "GET /forms/d/e/1FAIpQLSdwNWQtjetH4hj_MkRDOeBXkV6ib8LLgmO8th9dk3t6ePcz_g/formResponse?ifq";
 String tboxName = "&entry.911139776=Plano";
 String tbox1 = "&entry.1827900739=";
@@ -23,8 +29,23 @@ String tbox3 = "&entry.246745679=";
 String tbox4 = "&entry.716066615=";
 String tbox5 = "&entry.1880225264=";
 
-//Essa String sera uma auxiliar contendo o link utilizado pelo GET, para nao precisar ficar re-escrevendo toda hora
-///////////////////////////////////////////////////////////////////////////////////////////
+/*****************************************************/
+//Função que retorna o angulo de inclinação
+int getAngleMPU() {
+  //valores de correção obtido impiricamente
+  int offset = -90;
+  int factor = 1;
+  int value;
+  // Leitura dos valores normalizados
+  Vector normAccel = mpu.readNormalizeAccel();
+
+  // Calcula Pitch & Roll
+  int pitch = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis * normAccel.YAxis + normAccel.ZAxis * normAccel.ZAxis)) * 180.0) / M_PI;
+  int roll = (atan2(normAccel.YAxis, normAccel.ZAxis) * 180.0) / M_PI;
+  value = factor * roll + offset;
+  return value;
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -124,6 +145,8 @@ void loop()
   Serial.println(t3 - t0);
   Serial.print("Tempo decorrido 5 (ms): ");
   Serial.println(t4 - t0);
+  //Leitura do angulo
+  angulo = getAngleMPU();
 
   if (client.connect("docs.google.com", 443) == 1)//Tenta se conectar ao servidor do Google docs na porta 443 (HTTPS)
   {
@@ -138,7 +161,8 @@ void loop()
     toSend += String(t3 - t0);
     toSend += tbox4;// pergunta 4
     toSend += String(t4 - t0);
-    toSend += tbox5+"Nah";
+    toSend += tbox5;
+    toSend += String(angulo);
     toSend += "&submit=Submit HTTP/1.1";//Completamos o metodo GET para nosso formulario.
     Serial.println(toSend);
     client.println(toSend);//Enviamos o GET ao servidor-
@@ -153,7 +177,7 @@ void loop()
   }
 
   Serial.println("Experimento finalizado....");
-  Serial.println("Reset o ESP8266...");
+  Serial.println("Reset o Arduino...");
   long counter = millis();
   while (millis() - counter < 5000) {
     ESP.wdtFeed(); // loop de 5 segundos.
