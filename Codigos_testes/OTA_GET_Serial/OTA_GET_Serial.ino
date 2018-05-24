@@ -21,6 +21,8 @@ long count;
 bool flag_ready = false;
 bool flag_wait = false;
 String sub_url;
+String host;
+int port;
 WiFiManager WFManager;
 ///////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
@@ -70,6 +72,10 @@ void loop() {
     Serial.println("[ESP_01]: Waiting for data...");
     flag_wait = true;
   }
+  if (msg == "[HOST]") {//Espere pela sub_url apos esse comando
+    Serial.println("[ESP_01]: Waiting for data...");
+    flag_wait = true;
+  }
   else if (msg == "[SEND_WIFI]") {//Prepara para enviar a requisição GET
     Serial.println("[ESP_01]: Ready to send");
     flag_wait = false;
@@ -78,6 +84,8 @@ void loop() {
   else if (msg == "[URL_CLEAR]") {//Apague a sub_url atual.
     sub_url = "";
   }
+  else if(msg == "[PORT]"){
+    }
   else if (msg == "[NET_CLEAR]") {//Limpe da memoria as credenciais de rede wifi.
     Serial.println("[ESP_01]:");
     WFManager.resetSettings();
