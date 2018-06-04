@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
+//#include <ESP8266mDNS.h>
+//#include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <DNSServer.h>
-#include <ESP8266WebServer.h>
+//#include <ESP8266WebServer.h>
 #include <WiFiManager.h>
 
 //const char* ssid = "LME09";
@@ -67,19 +67,24 @@ void loop() {
   String msg = SerialReadLine();
   //Comandos atualmente suportados [URL], [SEND_WIFI], [URL_CLEAR], [NET_CLEAR].
   if (msg == "[URL]") {//Espere pela sub_url apos esse comando
-    Serial.println("[ESP_01]: Waiting for data...");
+    Serial.println("[ESP_01]: Esperando dados...");
     flag_wait = true;
   }
-  else if (msg == "[SEND_WIFI]") {//Prepara para enviar a requisição GET
-    Serial.println("[ESP_01]: Ready to send");
+  else if (msg == "[WIFI_SEND]") {//Prepara para enviar a requisição GET
+    Serial.println("[ESP_01]: Pronto para enviar");
+    if(sub_url != "" ){
     flag_wait = false;
     flag_ready = true;
+    }
+    else
+    Serial.println("[ESP_01]: URL vazia! Conexão abortada!");
   }
   else if (msg == "[URL_CLEAR]") {//Apague a sub_url atual.
+    Serial.println("[ESP_01]: URL Limpa!");
     sub_url = "";
   }
-  else if (msg == "[NET_CLEAR]") {//Limpe da memoria as credenciais de rede wifi.
-    Serial.println("[ESP_01]:");
+  else if (msg == "[WIFI_CLEAR]") {//Limpe da memoria as credenciais de rede wifi.
+    Serial.println("[ESP_01]: Credenciais excluidas");
     WFManager.resetSettings();
     ESP.reset();
     delay(5000);

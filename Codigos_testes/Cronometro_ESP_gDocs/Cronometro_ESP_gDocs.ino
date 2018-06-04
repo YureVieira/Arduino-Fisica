@@ -57,11 +57,11 @@ void loop()
 
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH) {
-    yield();//Efetua o feed do SW WDT.
+    yield();//Efetua o feed do SW WDT
     ESP.wdtFeed();
   }
   while (digitalRead(SENSOR1) == LOW) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   t0 = millis(); // captura o tempo corrente em t0
@@ -69,11 +69,11 @@ void loop()
 
   // SENSOR2 -------------------------------------------
   while (digitalRead(SENSOR2) == HIGH) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   while (digitalRead(SENSOR2) == LOW) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   t1 = millis(); // captura o tempo corrente em t1
@@ -81,11 +81,11 @@ void loop()
 
   //SENSOR3---------------------------------------------
   while (digitalRead(SENSOR3) == HIGH) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   while (digitalRead(SENSOR3) == LOW) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   t2 = millis(); // captura o tempo corrente em t2
@@ -93,11 +93,11 @@ void loop()
 
   //SENSOR4---------------------------------------------
   while (digitalRead(SENSOR4) == HIGH) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   while (digitalRead(SENSOR4) == LOW) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   t3 = millis(); // captura o tempo corrente em t3
@@ -105,11 +105,11 @@ void loop()
 
   //SENSOR5---------------------------------------------
   while (digitalRead(SENSOR5) == HIGH) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   while (digitalRead(SENSOR5) == LOW) {
-    yield();//Efetua o feed do SW WDT.
+    yield();
     ESP.wdtFeed();
   }
   t4 = millis(); // captura o tempo corrente em t4
