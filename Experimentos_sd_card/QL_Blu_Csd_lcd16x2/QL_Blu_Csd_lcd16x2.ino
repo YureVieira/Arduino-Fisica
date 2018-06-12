@@ -101,7 +101,7 @@ void loop()
   //Ultima mensagem enviada a serial antes dos valores colhidos do experimento.
   Serial.println(F("[START]"));
   //Mensagem padrão no lcd.
-  LCD_NovaMensagem(F("Trilho Honz"));
+  LCD_NovaMensagem(F("Queda Livre"));
   LCD_Mensagem(F("Aguardando valores!"), 0, 1);
   //SENSOR1 -------------------------------------------
   while (digitalRead(BOTAO) == HIGH);//Momento que o corpo entra no raio de cobertura do sensor
