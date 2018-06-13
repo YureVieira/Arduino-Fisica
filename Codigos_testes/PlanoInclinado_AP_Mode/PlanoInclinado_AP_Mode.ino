@@ -68,7 +68,7 @@ void loop()
   //SENSOR1 -------------------------------------------
   while (digitalRead(SENSOR1) == HIGH) {
     server.handleClient();
-    oledNewMessage(display.getWidth() / 2, 10, "Clientes: "+String(WiFi.softAPgetStationNum())+" Inclinação: "+String(getAngleMPU())+"°"+" IP: 192.168.4.1");
+    oledNewMessage(display.getWidth() / 2, 10, " IP: 192.168.4.1 Clientes: "+String(WiFi.softAPgetStationNum())+" Inclinação: "+String(getAngleMPU())+"°");
     yield();//Efetua o feed do SW WDT
     ESP.wdtFeed();
   }
