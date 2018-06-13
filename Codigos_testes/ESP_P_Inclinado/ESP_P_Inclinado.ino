@@ -303,8 +303,4 @@ void handleNotFound() {
   server.send(404, "text/plain", message);
 }
 /************************* DIVERSOS **************************/
-void combo() {
-  server.handleClient();
-  yield();
-  ESP.wdtFeed();
-}
+
