@@ -20,7 +20,7 @@ int angulo;                                           //Angulo de inclinação.
 MPU6050 mpu;                                          //Instancia da classe usada na leitura do acelerometro/giroscopio.
 SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 ESP8266WebServer server(80);//webserver
-const char* ssid = "PlanoInclinado";
+const char* ssid = "Plano_Inclinado";
 const char* password = "plano123";
 String main_msg;
 const char* prefix = "<!DOCTYPE html><html><head><meta http-equiv=\"refresh\" content=\"2\"><meta charset=\"utf-8\"><title>Plano Inclinado</title><style type=\"text/css\"> body{ font-family: Helvetica, sans-serif; } table,th,td{text-align: center; width: 20%; border: 1px solid black; } </style></head><body><h1>Plano Inclinado</h1><table>";
