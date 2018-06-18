@@ -22,13 +22,13 @@
   --------------------------------------------------------------------------*/
 #include "U8glib.h"
 // A linha abaixo define as ligacoes e deve ser ajustada conforme o display utilizado.
-U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
+U8GLIB_ST7920_128X64_4X u8g(10);//Ligação confirme https://circuitdigest.com/fullimage?i=circuitdiagram_mic/Interfacing-circuit-diagram-of-Graphical-LCD-with-Arduino.png
 //Pinos para sensores(Entradas analogicas são usadas como entradas digitais simples)
-#define S1 8
-#define S2 9
-#define S3 10
-#define S4 11
-#define S5 12
+#define S1 5
+#define S2 6
+#define S3 7
+#define S4 8
+#define S5 9
 
 unsigned long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0; //Registros de tempo para cada sensor apartir de millis().
 float T1, T2, T3, T4;                                 //Tempos entre sensores.

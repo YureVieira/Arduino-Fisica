@@ -22,35 +22,36 @@
   --------------------------------------------------------------------------*/
 #include "U8glib.h"
 // A linha abaixo define as ligacoes e deve ser ajustada conforme o display utilizado.
-U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
+U8GLIB_ST7920_128X64_4X u8g(10);
 //Pinos para sensores(Entradas analogicas são usadas como entradas digitais simples)
-#define SENSOR1 8
-#define SENSOR2 9
-#define SENSOR3 10
-#define SENSOR4 11
-#define SENSOR5 12
+#define SENSOR1 4
+#define SENSOR2 5
+#define SENSOR3 6
+#define SENSOR4 7
+#define SENSOR5 8
 
 unsigned long t0 = 0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; //Registros de tempo para cada sensor apartir de millis().
 float T1, T2, T3, T4;                                 //Tempos entre sensores.
 float v1, v2, v3, v4;                                 //Velocidades médias durante a passagem por cada cada sensor.
 //int sensor_atual = 5;                                 //Sensor ativado atualmente, importante para manter a sequencia de leitura de sensores.
 //int leitura;                                          //Habilita o calculo de velocidade após o termino da leitura de todos os sensores.
-float distancia = -1.0;                               //Distancia entre sensores.
+float distancia = 210.0;                               //Distancia entre sensores.
 
 //Preparação do display.
 void u8g_prepare()
 {
   u8g.setFont(u8g_font_6x10);
+//  u8g.setFont(u8g_font_5x8);
   u8g.setFontRefHeightExtendedText();
   u8g.setDefaultForegroundColor();
   u8g.setFontPosTop();
 }
 //Rotina para imprimir mensagens.
 void LCD_printValues() {
-  String value1 = String(T1);
-  String value2 = String(T2);
-  String value3 = String(T3);
-  String value4 = String(T4);
+  String value1 = String((uint32_t)T1);
+  String value2 = String((uint32_t)T2);
+  String value3 = String((uint32_t)T3);
+  String value4 = String((uint32_t)T4);
 
   char msg1[23], msg2[23], msg3[23], msg4[23];
 

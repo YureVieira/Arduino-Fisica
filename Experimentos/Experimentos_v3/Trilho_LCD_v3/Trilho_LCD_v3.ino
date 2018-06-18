@@ -23,13 +23,13 @@
 #include "U8glib.h"
 #include <SoftwareSerial.h>       //Biblioteca usada com bluetooth
 // A linha abaixo define as ligacoes e deve ser ajustada conforme o display utilizado.
-U8GLIB_ST7920_128X64_1X u8g(6, 5, 4 , 7); //Enable, RW, RS, RESET
+U8GLIB_ST7920_128X64_4X u8g(10);//Ligação mostrada na imagem https://circuitdigest.com/fullimage?i=circuitdiagram_mic/Interfacing-circuit-diagram-of-Graphical-LCD-with-Arduino.png
 
-#define SENSOR1 8       //Primeiro sensor.
-#define SENSOR2 9
-#define SENSOR3 10
-#define SENSOR4 11
-#define SENSOR5 12       //Ultimo sensor.
+#define SENSOR1 4       //Primeiro sensor.
+#define SENSOR2 5
+#define SENSOR3 6
+#define SENSOR4 7
+#define SENSOR5 8       //Ultimo sensor.
 //#define BOTAO A0        //Botão para funções.
 #define S_TX 2          //Tx para bluetooth.
 #define S_RX 3          //Rx para bluetooth.
@@ -53,10 +53,10 @@ void u8g_prepare()
 }
 //Rotina para imprimir mensagens.
 void LCD_printValues() {
-  String value1 = String(T1);
-  String value2 = String(T2);
-  String value3 = String(T3);
-  String value4 = String(T4);
+  String value1 = String((uint32_t)T1);
+  String value2 = String((uint32_t)T2);
+  String value3 = String((uint32_t)T3);
+  String value4 = String((uint32_t)T4);
 
   char msg1[23], msg2[23], msg3[23], msg4[23];
 
@@ -97,11 +97,11 @@ void draw() {
 
 void setup() {
   //Configuração de pinos como entradas digitais.
-  pinMode(SENSOR1, INPUT);
-  pinMode(SENSOR2, INPUT);
-  pinMode(SENSOR3, INPUT);
-  pinMode(SENSOR4, INPUT);
-  pinMode(SENSOR5, INPUT);
+  pinMode(SENSOR1, INPUT_PULLUP);
+  pinMode(SENSOR2, INPUT_PULLUP);
+  pinMode(SENSOR3, INPUT_PULLUP);
+  pinMode(SENSOR4, INPUT_PULLUP);
+  pinMode(SENSOR5, INPUT_PULLUP);
   //pinMode(BOTAO, INPUT_PULLUP);//Pullup interno despensa resistor externo.
   Serial.begin (115200);//Comunicação serial configurada.
   bluetooth.begin(9600);//Porta para bluetooth.
