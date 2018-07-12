@@ -93,6 +93,7 @@ void loop()
   t4 = millis(); // captura o tempo corrente em t4
   tela.print("Sensor 1", LEFT, 8 * 4);
 
+  angulo = getAngleMPU();
   // Calculo -------------------------------------------
   T1 = (t1 - t0) ;
   T2 = (t2 - t0) ;
@@ -104,7 +105,7 @@ void loop()
   delay(2000);
   tela.clrScr(); //Apaga o contéudo que estiver na tela
   //  tela.invert(true);
-  tela.print("Angulo:"+String(getAngleMPU()), LEFT, 8 * 0);
+  tela.print("Angulo:"+String(angulo), LEFT, 8 * 0);
   tela.print("--------------", LEFT, 8 * 1);
   tela.print("T1:" + String(T1), LEFT, 8 * 2);
   tela.print("T2:" + String(T2), LEFT, 8 * 3);
