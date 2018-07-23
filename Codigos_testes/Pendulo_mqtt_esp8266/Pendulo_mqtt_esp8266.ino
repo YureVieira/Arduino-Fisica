@@ -18,16 +18,16 @@ SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 bool status;
 int count = 0;
 char* topic = "/pendulo";
-char* server = "10.0.40.159";
+char* server = "10.0.40.168";
 WiFiClient wifiClient;
 PubSubClient client(server, 1883, callback, wifiClient);
 
 void setup() {
   Serial.begin(115200);
-  wifiSetup();
   oledSetup();
+  wifiSetup();  
   mqttSetup();
-  pinMode(pin, INPUT);
+  pinMode(pin, INPUT_PULLUP);
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
   display.setFont(ArialMT_Plain_16);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Sistema Pronto!");

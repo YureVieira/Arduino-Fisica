@@ -1,9 +1,9 @@
 #include <LCD5110_Basic.h>
-#define CLK 7
-#define DIN 6
-#define DC 5
-#define RST 3
-#define CE 4
+#define CLK 13
+#define DIN 12
+#define DC 11
+#define RST 9
+#define CE 10
 LCD5110 tela(CLK, DIN, DC, RST, CE);
 
 

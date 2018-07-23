@@ -42,7 +42,7 @@ void setup()
   while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
     tela.print("MPU",CENTER, 8 * 1);
-    tela.print("Disconectado",CENTER, 8 * 2);
+    tela.print("Desconectado",CENTER, 8 * 2);
     delay(500);
     tela.clrScr();
   }
