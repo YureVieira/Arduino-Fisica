@@ -17,6 +17,7 @@ SSD1306Wire  display(0x3c, D6, D5);
 int count = 0;
 char* topic = "/pendulo";
 char* server = "10.0.40.168";
+boolean wifi = false, mqtt = false;
 WiFiClient wifiClient;
 void callback(char* topic, byte * payload, unsigned int length);
 PubSubClient client(server, 1883, callback, wifiClient);
@@ -29,8 +30,8 @@ void setup() {
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
   display.setFont(ArialMT_Plain_10);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Buscando conexão");
-  wifiSetup();
-  mqttSetup();
+  wifi = wifiSetup();
+  if (wifi)mqtt = mqttSetup();
   display.init();
   display.flipScreenVertically();
   display.setContrast(255);
@@ -39,28 +40,29 @@ void setup() {
   display.setFont(ArialMT_Plain_10);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Sistema Pronto!");
   display.setTextAlignment(TEXT_ALIGN_LEFT);
+  if (wifi) {
+    ArduinoOTA.begin();
+    ArduinoOTA.onStart([]() {
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 10, "OTA Update");
+      display.display();
+    });
 
-  ArduinoOTA.begin();
-  ArduinoOTA.onStart([]() {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-    display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 10, "OTA Update");
-    display.display();
-  });
+    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+      display.drawProgressBar(4, 32, 120, 8, progress / (total / 100) );
+      display.display();
+    });
 
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    display.drawProgressBar(4, 32, 120, 8, progress / (total / 100) );
-    display.display();
-  });
-
-  ArduinoOTA.onEnd([]() {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-    display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Restart");
-    display.display();
-  });
+    ArduinoOTA.onEnd([]() {
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Restart");
+      display.display();
+    });
+  }
 }
 /************************************************************************************
 ** LOOP
@@ -70,26 +72,22 @@ void loop() {
   if (sensor()) {
     time1 = millis();
     while (sensor()) {
-      ArduinoOTA.handle();
-      yield();
-      ESP.wdtFeed();
+      if (wifi)ArduinoOTA.handle();
+      yield(); ESP.wdtFeed();
     }
-    while (!sensor() || time2==0) {
-      ArduinoOTA.handle();
+    while (!sensor() || time2 == 0) {
+      if (wifi)ArduinoOTA.handle();
       time2 = millis();
-      yield(); 
-      ESP.wdtFeed();
+      yield(); ESP.wdtFeed();
     }
     while (sensor()) {
-      ArduinoOTA.handle();
-      yield();
-      ESP.wdtFeed();
+      if (wifi)ArduinoOTA.handle();
+      yield(); ESP.wdtFeed();
     }
-    while (!sensor()|| time3==0) {
+    while (!sensor() || time3 == 0) {
       time3 = millis();
-      ArduinoOTA.handle();
-      yield(); 
-      ESP.wdtFeed();
+      if (wifi)ArduinoOTA.handle();
+      yield(); ESP.wdtFeed();
     }
     count++;
     String payload = String(time3 - time1);
@@ -100,20 +98,22 @@ void loop() {
     oledAddMessage(0, 40, "Payload: " + payload);
     Serial.print(String(count) + "º ciclo / ");
     Serial.println("Periodo: " + payload + " ms");
-    if (client.connected()) {
-      if (client.publish(topic, payload.c_str())) {
-        oledAddMessage(0, 50, "Publish ok");
+    if (wifi && mqtt) {
+      if (client.connected()) {
+        if (client.publish(topic, payload.c_str())) {
+          oledAddMessage(0, 50, "Publish ok");
+        }
+        else {
+          oledAddMessage(0, 50, "Publish failed");
+        }
       }
       else {
-        oledAddMessage(0, 50, "Publish failed");
+        oledAddMessage(0, 0, "Diconectado");
+        client.connect("ESP8266_872ysrjo21387y");
       }
     }
-    else {
-      oledAddMessage(0, 0, "Diconectado");
-      client.connect("ESP8266_872ysrjo21387y");
-    }
+    if (wifi)ArduinoOTA.handle();
   }
-  ArduinoOTA.handle();
 }
 
 /************************************************************************************
@@ -122,13 +122,19 @@ void loop() {
 void callback(char* topic, byte * payload, unsigned int length) {
   // handle message arrived
 }
-void mqttSetup() {
-  if (client.connect("ESP8266_872ysrjo21387y"))
+bool mqttSetup() {
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  if (client.connect("ESP8266_872ysrjo21387y")) {
     oledNewMessage(0, 0, "Connected to MQTT broker");
+    delay(1000);
+    return true;
+  }
   else {
     oledNewMessage(0, 0, "MQTT connect failed");
-    oledAddMessage(0, 0, "/nWill reset and try again...");
-    abort();
+//    oledAddMessage(0, 10, "Will reset and try again...");
+    delay(5000);
+    return false;
+    //    abort();
   }
 }
 /************************************************************************************
@@ -140,13 +146,15 @@ bool sensor() {
 /************************************************************************************
 ** FUNÇÕES P/ CONEXÃO
 ************************************************************************************/
-void wifiSetup() {
+bool wifiSetup() {
   WiFiManager WFManager;
   if (!WFManager.autoConnect(SSID, PASSWRORD)) {
     delay(3000);
     //Reinicia o ESP e tenta novamente ou entra em sono profundo (DeepSleep)
-    ESP.reset();
+    //    ESP.reset();
+    return false;
   }
+  return true;
 }
 /************************************************************************************
 ** FUNÇÕES P/ OLED
