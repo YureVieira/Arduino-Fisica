@@ -15,9 +15,9 @@
 
 SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 // SH1106 display(0x3c, D3, D5);
-int count = 0;
+int count = 0,sensor_count=0;
 char* topic = "/pendulo";
-char* server = "10.0.40.171";
+char* server = "10.0.40.144";
 bool wifi = false, mqtt = false;
 WiFiClient wifiClient;
 void callback(char* topic, byte * payload, unsigned int length);
@@ -40,6 +40,7 @@ void setup() {
   display.setFont(ArialMT_Plain_10);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Sistema Pronto!");
   display.setTextAlignment(TEXT_ALIGN_LEFT);
+  //Configurações OTA
   ArduinoOTA.setHostname("Pendulo_ESP32");
   if (wifi) {
     ArduinoOTA.onStart([]() {
@@ -77,30 +78,40 @@ void loop() {
       yield(); 
       //delay(25);
     }
+    //Debug
+    sensor_count++;
+    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
     while (!sensor() || time2 == 0) {
       if (wifi)ArduinoOTA.handle();
       time2 = millis();
       yield(); 
       delay(25);
     }
+    //Debug
+    sensor_count++;
+    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
     while (sensor()) {
       if (wifi)ArduinoOTA.handle();
       yield(); 
       delay(25);
     }
+    //Debug
+    sensor_count++;
+    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
     while (!sensor() || time3 == 0) {
       time3 = millis();
       if (wifi)ArduinoOTA.handle();
       yield(); 
       delay(25);
     }
+    sensor_count++;
     count++;
     String payload = String(time3 - time1);
-    oledNewMessage(0, 0, "T1: " + String(time1));
-    oledAddMessage(0, 10, "T2: " + String(time2));
-    oledAddMessage(0, 20, "T3: " + String(time3));
-    oledAddMessage(0, 30, "Periodo: " + String(time3 - time1));
-    oledAddMessage(0, 40, "Payload: " + payload);
+    oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
+    oledAddMessage(0, 10, "T1: " + String(time1));
+    oledAddMessage(0, 20, "T2: " + String(time2));
+    oledAddMessage(0, 30, "T3: " + String(time3));
+    oledAddMessage(0, 40, "Periodo: " + String(time3 - time1));    
     Serial.print(String(count) + "º ciclo / ");
     Serial.println("Periodo: " + payload + " ms");
     if (wifi && mqtt) {
