@@ -1,24 +1,24 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <WiFiUdp.h>
+#include <ESPmDNS.h>
+#include <ArduinoOTA.h>
 #include <WiFiManager.h>
 #include <PubSubClient.h>
 #include <Wire.h>
-#include <ESP8266mDNS.h>
-#include <ArduinoOTA.h>
 #include "SSD1306Wire.h" // legacy include: `#include "SSD1306.h"`
-#define SSID "ESP12E_AP_MODE"
+#define SSID "ESP32E_AP_MODE"
 #define PASSWRORD "12345678"
-#define SDA_PIN D6
-#define SCL_PIN D3
-#define pin D1
-#define DELAY 20
+#define SDA_PIN 21
+#define SCL_PIN 22
+#define pin 23
 
-SSD1306Wire  display(0x3c, D6, D5);
+SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 // SH1106 display(0x3c, D3, D5);
 int count = 0;
 char* topic = "/pendulo";
 char* server = "10.0.40.171";
-boolean wifi = false, mqtt = false;
+bool wifi = false, mqtt = false;
 WiFiClient wifiClient;
 void callback(char* topic, byte * payload, unsigned int length);
 PubSubClient client(server, 1883, callback, wifiClient);
@@ -30,7 +30,7 @@ void setup() {
   oledSetup();
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
   display.setFont(ArialMT_Plain_10);
-  oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Buscando conexão");
+  oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Buscando conexao");
   //tenta se conectar com uma rede wifi
   wifi = wifiSetup();
   //Se esta conectado tente se conectar ao broker mqtt
@@ -40,8 +40,8 @@ void setup() {
   display.setFont(ArialMT_Plain_10);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Sistema Pronto!");
   display.setTextAlignment(TEXT_ALIGN_LEFT);
+  ArduinoOTA.setHostname("Pendulo_ESP32");
   if (wifi) {
-    ArduinoOTA.begin();
     ArduinoOTA.onStart([]() {
       display.clear();
       display.setFont(ArialMT_Plain_10);
@@ -62,6 +62,7 @@ void setup() {
       display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Restart");
       display.display();
     });
+    ArduinoOTA.begin();
   }
 }
 /************************************************************************************
@@ -73,21 +74,25 @@ void loop() {
     time1 = millis();
     while (sensor()) {
       if (wifi)ArduinoOTA.handle();
-      yield(); ESP.wdtFeed();
+      yield(); 
+      //delay(25);
     }
     while (!sensor() || time2 == 0) {
       if (wifi)ArduinoOTA.handle();
       time2 = millis();
-      yield(); ESP.wdtFeed();
+      yield(); 
+      delay(25);
     }
     while (sensor()) {
       if (wifi)ArduinoOTA.handle();
-      yield(); ESP.wdtFeed();
+      yield(); 
+      delay(25);
     }
     while (!sensor() || time3 == 0) {
       time3 = millis();
       if (wifi)ArduinoOTA.handle();
-      yield(); ESP.wdtFeed();
+      yield(); 
+      delay(25);
     }
     count++;
     String payload = String(time3 - time1);
@@ -114,6 +119,7 @@ void loop() {
     }
     if (wifi)ArduinoOTA.handle();
   }
+  ArduinoOTA.handle();
 }
 
 /************************************************************************************
@@ -161,7 +167,7 @@ bool wifiSetup() {
 ************************************************************************************/
 void oledSetup() {
   display.init();
-  display.flipScreenVertically();
+//  display.flipScreenVertically();
   display.setContrast(255);
 }
 void oledNewMessage(int16_t x, int16_t y, String msg) {

@@ -76,8 +76,13 @@ void setup() {
   display.setFont(ArialMT_Plain_10);
   display.drawString(display.getWidth()/2, display.getHeight()/2, "Ready for OTA:\n" + WiFi.localIP().toString());
   display.display();
+  pinMode(2,OUTPUT);
 }
 
 void loop() {
+  digitalWrite(2,1);
+  delay(500);
+  digitalWrite(2,0);
+  delay(500);
   ArduinoOTA.handle();
 }
