@@ -1,3 +1,4 @@
+//#define WFM_ENABLE
 #include <WiFi.h>
 #include <WebServer.h>
 #include <WiFiUdp.h>
@@ -15,7 +16,8 @@
 
 SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 // SH1106 display(0x3c, D3, D5);
-int count = 0,sensor_count=0;
+int count = 0;
+int _delay = 300;
 char* topic = "/pendulo";
 char* server = "10.0.40.144";
 bool wifi = false, mqtt = false;
@@ -34,13 +36,12 @@ void setup() {
   //tenta se conectar com uma rede wifi
   wifi = wifiSetup();
   //Se esta conectado tente se conectar ao broker mqtt
-  if (wifi)mqtt = mqttSetup();  
+  if (wifi)mqtt = mqttSetup();
   pinMode(pin, INPUT_PULLUP);
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
   display.setFont(ArialMT_Plain_10);
   oledNewMessage(display.getWidth() / 2, display.getHeight() / 2, "Sistema Pronto!");
   display.setTextAlignment(TEXT_ALIGN_LEFT);
-  //Configurações OTA
   ArduinoOTA.setHostname("Pendulo_ESP32");
   if (wifi) {
     ArduinoOTA.onStart([]() {
@@ -71,47 +72,31 @@ void setup() {
 ************************************************************************************/
 void loop() {
   uint32_t time1 = 0, time2 = 0, time3 = 0;
-  if (sensor()) {
+//  if (sensor()) {
+    while (!sensor()) {
+      if (wifi)ArduinoOTA.handle();
+      yield();
+    }
     time1 = millis();
-    while (sensor()) {
+    delay(_delay);
+    while (!sensor()) {
       if (wifi)ArduinoOTA.handle();
-      yield(); 
-      //delay(25);
+      yield();
     }
-    //Debug
-    sensor_count++;
-    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
-    while (!sensor() || time2 == 0) {
+    time2 = millis();
+    delay(_delay);
+    while (!sensor()) {
       if (wifi)ArduinoOTA.handle();
-      time2 = millis();
-      yield(); 
-      delay(25);
+      yield();
     }
-    //Debug
-    sensor_count++;
-    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
-    while (sensor()) {
-      if (wifi)ArduinoOTA.handle();
-      yield(); 
-      delay(25);
-    }
-    //Debug
-    sensor_count++;
-    //oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
-    while (!sensor() || time3 == 0) {
-      time3 = millis();
-      if (wifi)ArduinoOTA.handle();
-      yield(); 
-      delay(25);
-    }
-    sensor_count++;
+  time3 = millis();
     count++;
     String payload = String(time3 - time1);
-    oledNewMessage(0, 0, "Sensor: " + String(sensor_count));
-    oledAddMessage(0, 10, "T1: " + String(time1));
-    oledAddMessage(0, 20, "T2: " + String(time2));
-    oledAddMessage(0, 30, "T3: " + String(time3));
-    oledAddMessage(0, 40, "Periodo: " + String(time3 - time1));    
+    oledNewMessage(0, 0, "T1: " + String(time1));
+    oledAddMessage(0, 10, "T2: " + String(time2));
+    oledAddMessage(0, 20, "T3: " + String(time3));
+    oledAddMessage(0, 30, "Periodo: " + String(time3 - time1));
+    oledAddMessage(0, 40, "Payload: " + payload);
     Serial.print(String(count) + "º ciclo / ");
     Serial.println("Periodo: " + payload + " ms");
     if (wifi && mqtt) {
@@ -129,8 +114,8 @@ void loop() {
       }
     }
     if (wifi)ArduinoOTA.handle();
-  }
-  ArduinoOTA.handle();
+//  }
+//  ArduinoOTA.handle();
 }
 
 /************************************************************************************
@@ -148,7 +133,7 @@ bool mqttSetup() {
   }
   else {
     oledNewMessage(0, 0, "MQTT connect failed");
-//    oledAddMessage(0, 10, "Will reset and try again...");
+    //    oledAddMessage(0, 10, "Will reset and try again...");
     delay(5000);
     return false;
     //    abort();
@@ -164,6 +149,9 @@ bool sensor() {
 ** FUNÇÕES P/ CONEXÃO
 ************************************************************************************/
 bool wifiSetup() {
+  const char* ssid = "LME09";
+  const char* password = "138027Sn";
+#ifdef WFM_ENABLE
   WiFiManager WFManager;
   if (!WFManager.autoConnect(SSID, PASSWRORD)) {
     delay(3000);
@@ -171,6 +159,16 @@ bool wifiSetup() {
     //    ESP.reset();
     return false;
   }
+#else if
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    oledNewMessage(0, 0, "Connection Failed! Rebooting...");
+    //    delay(5000);
+    //    ESP.restart();
+    return false;
+  }
+#endif
   return true;
 }
 /************************************************************************************
@@ -178,7 +176,7 @@ bool wifiSetup() {
 ************************************************************************************/
 void oledSetup() {
   display.init();
-//  display.flipScreenVertically();
+  //  display.flipScreenVertically();
   display.setContrast(255);
 }
 void oledNewMessage(int16_t x, int16_t y, String msg) {
