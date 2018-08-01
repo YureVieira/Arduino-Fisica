@@ -17,9 +17,9 @@
 SSD1306Wire  display(0x3c, SDA_PIN, SCL_PIN);
 // SH1106 display(0x3c, D3, D5);
 int count = 0;
-int _delay = 300;
+int _delay = 200;
 char* topic = "/pendulo";
-char* server = "10.0.40.144";
+char* server = "10.0.40.165";
 bool wifi = false, mqtt = false;
 WiFiClient wifiClient;
 void callback(char* topic, byte * payload, unsigned int length);
@@ -72,50 +72,50 @@ void setup() {
 ************************************************************************************/
 void loop() {
   uint32_t time1 = 0, time2 = 0, time3 = 0;
-//  if (sensor()) {
-    while (!sensor()) {
-      if (wifi)ArduinoOTA.handle();
-      yield();
-    }
-    time1 = millis();
-    delay(_delay);
-    while (!sensor()) {
-      if (wifi)ArduinoOTA.handle();
-      yield();
-    }
-    time2 = millis();
-    delay(_delay);
-    while (!sensor()) {
-      if (wifi)ArduinoOTA.handle();
-      yield();
-    }
+  //  if (sensor()) {
+  while (!sensor()) {
+    if (wifi)ArduinoOTA.handle();
+    yield();
+  }
+  time1 = millis();
+  delay(_delay);
+  while (!sensor()) {
+    if (wifi)ArduinoOTA.handle();
+    yield();
+  }
+  time2 = millis();
+  delay(_delay);
+  while (!sensor()) {
+    if (wifi)ArduinoOTA.handle();
+    yield();
+  }
   time3 = millis();
-    count++;
-    String payload = String(time3 - time1);
-    oledNewMessage(0, 0, "T1: " + String(time1));
-    oledAddMessage(0, 10, "T2: " + String(time2));
-    oledAddMessage(0, 20, "T3: " + String(time3));
-    oledAddMessage(0, 30, "Periodo: " + String(time3 - time1));
-    oledAddMessage(0, 40, "Payload: " + payload);
-    Serial.print(String(count) + "º ciclo / ");
-    Serial.println("Periodo: " + payload + " ms");
-    if (wifi && mqtt) {
-      if (client.connected()) {
-        if (client.publish(topic, payload.c_str())) {
-          oledAddMessage(0, 50, "Publish ok");
-        }
-        else {
-          oledAddMessage(0, 50, "Publish failed");
-        }
+  count++;
+  String payload = String(time3 - time1);
+  oledNewMessage(0, 0, "T1: " + String(time1));
+  oledAddMessage(0, 10, "T2: " + String(time2));
+  oledAddMessage(0, 20, "T3: " + String(time3));
+  oledAddMessage(0, 30, "Periodo: " + String(time3 - time1));
+  oledAddMessage(0, 40, "Ciclo: " + String(count));
+  Serial.print(String(count) + "º ciclo / ");
+  Serial.println("Periodo: " + payload + " ms");
+  if (wifi && mqtt) {
+    if (client.connected()) {
+      if (client.publish(topic, payload.c_str())) {
+        oledAddMessage(0, 50, "Publish ok");
       }
       else {
-        oledAddMessage(0, 0, "Diconectado");
-        client.connect("ESP8266_872ysrjo21387y");
+        oledAddMessage(0, 50, "Publish failed");
       }
     }
-    if (wifi)ArduinoOTA.handle();
-//  }
-//  ArduinoOTA.handle();
+    else {
+      oledAddMessage(0, 0, "Diconectado");
+      client.connect("ESP8266_872ysrjo21387y");
+    }
+  }
+  if (wifi)ArduinoOTA.handle();
+  //  }
+  //  ArduinoOTA.handle();
 }
 
 /************************************************************************************
